@@ -1,0 +1,27 @@
+# Plotting
+**.pdf
+**.png
+**.plt
+**.jpg
+
+# Latex
+**.bcf
+**.blg
+**.fls
+**.log
+**.nav
+**.out
+**.fdb_latexmk
+**.aux
+**.gz
+
+# MMTK
+**.nc
+**.so
+
+# Poster
+**.asy
+**.pptx
+**.toc
+**.snm
+**.run.xml

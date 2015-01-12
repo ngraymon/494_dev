@@ -1,0 +1,256 @@
+\pdfobjcompresslevel=0
+\documentclass[final,t]{beamer}
+
+\setbeamerfont{itemize}{size=\normalsize}
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+
+\usetheme{custom}
+
+\usefonttheme[onlymath]{serif}
+
+\usepackage{amsmath,amsthm,amssymb,latexsym}
+\usepackage{exscale}
+\usepackage{booktabs, array}
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[orientation=landscape,size=custom,width=121.9,height=91.44,scale=1.25]{beamerposter}
+\usepackage{commath}
+\usepackage{mathtools}
+\usepackage[version=3]{mhchem}
+\usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
+\usepackage{braket}
+
+\addbibresource{references.bib}
+
+\setbeamertemplate{bibliography item}{\insertbiblabel}
+
+\newcommand{\psiT}{\psi_{\textrm{T}}}
+
+\DeclareGraphicsExtensions{.pdf,.png,.jpg}
+
+\DeclareMathOperator{\Tr}{Tr}
+\DeclareMathOperator{\adj}{adj}
+\DeclareMathOperator{\atan}{atan}
+\DeclareMathOperator{\atant}{atan2}
+
+\newcommand{\expb}[1]{\ensuremath{\exp{\left[ #1 \right]}}}
+\renewcommand{\vec}[1]{\mathbf{#1}}
+
+% http://tex.stackexchange.com/questions/433/vertically-center-text-and-image-in-one-line
+\newcommand{\vcentered}[1]{\begingroup
+\setbox0=\hbox{#1}%
+\parbox{\wd0}{\box0}\endgroup}
+
+
+\title{Semiclassical time correlation functions: \\ Path Integral Ground State (PIGS) \& Initial Value Representation (IVR)}
+\author{Neil Raymond, Dmitri Iouchtchenko, and Pierre-Nicholas Roy}
+\institute{Department of Chemistry, University of Waterloo, Waterloo, Canada}
+\date{November 2014}
+
+\begin{document}
+
+\begin{frame}{}
+\begin{columns}[T]
+
+
+\begin{column}{.31\linewidth}
+	\begin{column}{.55\linewidth}
+		\vskip-\headheight
+		\includegraphics[width=0.5\linewidth]{images/scp_logo}
+	\end{column}
+	\begin{block}{Motivation}
+		\begin{itemize}
+			\item Investigating the use of of the Semiclassical Initial Value Representation (SC-IVR) method in formulating correlation functions, for the purposes of finding excited state energies. 
+				\vskip1ex
+				\begin{itemize}
+					\item Excited state energies can be determined from the spectrum produced when applying a Fourier transform to a correlation function
+					\item Traditionally using SC-IVR on large complex molecular systems is impractical, but by applying a using time-averaged (TA) SC-IVR this difficulty can be overcome						\cite{issack2007semiclassical}
+				\end{itemize}
+			\item \textbf{Goals}:
+				\begin{itemize}
+					\item Use existing method (PIGS in MMTK) to create a pool of initial conditions representative of the true ground state wave function. \cite{schmidt2014inclusion}
+					\item Apply the TA SC-IVR formulation of the correlation function to a sample of the pool of initial conditions.
+					\item Obtain excited state energies by Fourier transforming the correlation function.
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{Path integrals}
+		\begin{itemize}
+			\item Path integral formulation of quantum mechanics allows systems to be represented using chains of classical particles (``beads'')
+			\item For the ground state:
+				\begin{enumerate}\setlength{\itemindent}{1em}
+					\item Propagate a trial function to find the wavefunction: $\ket{0} = e^{-\frac{\beta}{2} \hat{H}} \ket{\psiT}$
+					\item Find the density operator: $\hat{\rho} = \ket{0}\!\!\bra{0} = e^{-\frac{\beta}{2} \hat{H}} \ket{\psiT}\!\!\bra{\psiT} e^{-\frac{\beta}{2} \hat{H}}$
+					\item Let $\beta = \tau (P-1)$, so
+						\begin{align*}
+							Z
+							&= \Tr{\hat{\rho}}
+							= \Braket{\psiT | e^{-\beta \hat{H}} | \psiT}
+							= \Braket{\psiT | \left( e^{-\tau \hat{H}} \right)^{(P-1)} | \psiT}
+						\end{align*}
+					\item Apply Trotter factorization:~\cite{schmidt2014inclusion}
+						$
+							e^{-\tau \hat{H}}
+							\approx
+								e^{-\frac{\tau}{2} \textcolor{red}{\hat{V}}}
+								e^{-\tau \textcolor{blue}{\hat{K}}}
+								e^{-\frac{\tau}{2} \textcolor{red}{\hat{V}}}
+						$
+					\item Introduce $P$ resolutions of the identity $\int\! \dif q_i \ket{q_i}\!\!\bra{q_i}$ to act as the beads
+				\end{enumerate}
+			\item We build our path so that the middle bead represented by $M$ has no potential energy acting on it, and the first, last, $M-1$, and $M+1$ beads only have half the potential energy acting on them. \\
+			In the following image of two path's $A$ and $B$ potential energy is represented by the dotted red lines. While the "springs" connecting the beads are represented by the wavy blue lines
+				\begin{center}
+					\includegraphics[width=1.0\linewidth]{images/7-pigs}
+				\end{center}
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{Molecular dynamics}
+		\begin{itemize}
+			\item \textbf{Path Integral Molecular Dynamics (PIMD)}~\cite{ceperley1995path}
+				\begin{itemize}
+					\item Fictitious beads are treated as real particles in a real universe
+					\item Classical equations of motion are integrated to produce multi-particle trajectory
+					\item Trajectory is analyzed using estimators to extract properties
+				\end{itemize}
+			\item \textbf{Path Integral Ground State (PIGS)}~\cite{sarsa2000path,cuervo2005path}
+				\begin{itemize}
+					\item Imaginary time propagation is applied to a trial function
+					\item Exact result in the infinite propagation time ($\beta \to \infty$) limit
+					\item Trial function is arbitrary, but cannot be orthogonal to target ground state
+				\end{itemize}
+			\item \textbf{Langevin equation Path Integral Ground State (LePIGS)}~\cite{constable2013langevin}
+				\begin{itemize}
+					\item Introduces Langevin thermostat to PIGS for more efficient sampling
+					\item Simulations are NVT (canonical) rather than NVE (microcanonical)
+					\item Implemented in the \textbf{Molecular Modelling Toolkit (MMTK)}~\cite{hinsen2000molecular}
+					\item Used to find ground state properties of bosonic systems
+				\end{itemize}
+		\end{itemize}
+	\end{block}
+\end{column}
+
+\begin{column}{.37\linewidth}
+	\begin{block}{Correlation Functions}
+		\begin{itemize}
+			\item Offer a means of probing dynamical systems
+			\item Quantum Mechanical representation: 
+				\begin{align*}
+					C(t) =\Braket{0 | e^{\frac{i \hat{H} t}{\hbar}} \hat{q} e^{\frac{-i \hat{H} t}{\hbar}} \hat{q} | 0} = \frac{\hbar}{2 m \omega} e^{-i \omega t}
+				\end{align*}
+				%\begin{align*}
+					%C(t) = \frac{1}{Z}\Tr[e^{-\beta \hat{H}} \hat{B} e^{\frac{i \hat{H} t}{\hbar}} \hat{A} e^{\frac{-i \hat{H} t}{\hbar}} ]
+				%\end{align*}
+				%Where $e^{-\beta \hat{H}}$ is the thermal density operator, $Z = Tr(e^{-\beta \hat{H}})$ is the partition function, and $e^{\frac{i \hat{H} t}{\hbar}} \hat{A} e^{\frac{-i \hat{H} t}{\hbar}} = \hat{A}(t)$ is the Heisenberg representation of operator $\hat{A}$
+				\vskip-1ex
+			\item $C(t): I(\omega) = \int dt e^{-i \omega t} C(t)$
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{Semiclassical Initial Value Representation (IVR)}
+		\begin{itemize}
+			\item "Path" Estimator for $t=0$ case using data collected only form PIGS simulations:
+			\begin{align*}
+				& A(p, q_{M-1}, q, q_{M+1}) \\
+				&= \frac{\sqrt{2}}{P-1} q_{M-1} q_{M+1}
+					\expb{
+						+ \frac{\beta (P-1)}{2 m} p^2
+						+ \frac{\tau}{2}(V(q_{M-1}) + 2V(q_{M}) +V(q_{M+1}))
+						- \frac{i}{\hbar}p(q_{M+1} - q_{M-1})
+					} \\
+				&\qquad\times
+					\expb{
+						\frac{i}{\hbar} \left( p(t) (q_{M-1} - q(t)) - p (q_{M+1} - q) \right)
+					}.
+			\end{align*}
+			\item Estimator for classical trajectory
+			\begin{align*}
+				& O(p, q_{M-1}, q, q_{M+1}, t) \\
+				&= \frac{\sqrt{2}}{P-1} q_{M-1} q_{M+1}
+					\expb{
+						-2 \tau E_0
+						+ \frac{\beta (P-1)}{2 m} p^2
+						+ \frac{i S_{p,q}(t)}{\hbar}
+						- \frac{m}{2 \hbar^2 \tau} \left( (q_{M-1} - q(t))^2 - (q_{M+1} - q)^2 \right)
+					} \\
+				&\qquad\times
+					\expb{
+						\frac{i}{\hbar} \left( p(t) (q_{M-1} - q(t)) - p (q_{M+1} - q) \right)
+					}.
+			\end{align*}		
+			\item We spawn a classical trajectory from each sampled middle bead $M_{i}$.
+			\item We determine  $C(t)$ by averaging the estimator results from the classical trajectory for each $t$. \\
+			The following graphic demonstrates how this principle works.
+		\end{itemize}
+		\includegraphics[width=1.0\linewidth]{images/classical}
+	\end{block}
+	\begin{block}{Test system}
+		\begin{itemize}
+			\item Using a single particle inside a harmonic oscillator
+				\begin{itemize}
+					\item $\hat{H} = \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} $
+				\end{itemize}
+			\item A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation
+			\item The  estimator was used to find the energy:
+					$$
+						\langle E \rangle
+						= \frac{\Braket{\psiT | e^{-\beta \hat{H}} \hat{H} | \psiT}}{\Braket{\psiT | e^{-\beta \hat{H}} | \psiT}}
+					$$
+			
+		\end{itemize}
+	\end{block}
+	\begin{block}{Acknowledgements}
+		\vskip-2ex
+		\begin{column}{.45\linewidth}
+			\begin{itemize}
+				\item Chris Herdman
+				\item University of Waterloo
+				\item NSERC
+			\end{itemize}
+		\end{column} 
+		\begin{column}{.45\linewidth}
+			\raggedleft
+			\includegraphics[width=0.6\linewidth]{images/nserc}
+		\end{column}
+	\end{block}				
+\end{column}
+
+
+\begin{column}{.31\linewidth}
+	\begin{column}{1\linewidth}
+		\vskip-\headheight
+		\vskip15ex
+		\begin{block}{Results}
+			\begin{itemize}
+				\item Here we have two plots showing sample results for our path estimator for the $t=0$ case. In each plot data points are drawn from separate PIGS simulations, all run with a $\tau = 0.0625 K^{-1}$ and a varying number of beads, and consequently $\beta$. The horizontal line represents the expected value as derived analytically. 
+				\vskip1ex
+				\includegraphics[width=1.0\linewidth]{images/21-97h0line}
+				\quad
+				\item Here in the second plot two sets of data are represented. The first set of data had a low precision and contains simulations with P values in the set $\{21,23 ... 97,99\}$. The second set of data had high precision and contains simulations with P values in the set $\{101,103, ... 197,199\}$
+				\vskip1ex
+				\includegraphics[width=1.0\linewidth]{images/largelook}
+			\end{itemize}
+		\end{block}
+	\end{column}
+	\vskip2ex
+	
+	\begin{block}{Future work}
+		\begin{itemize}
+			\item Now that our method works for the $t=0$ case, we need to run the classical trajectories and generate some correlation functions with $t > 0$
+			\item Using this SC-IVR approach to calculate the spectrum of two particles in a double well potential Results from this would be a good test of the approaches accuracy and efficiency.
+		\end{itemize}
+	\end{block}
+
+	\begin{block}{References}
+		\renewcommand*{\bibfont}{\scriptsize}
+		\printbibliography
+	\end{block}
+\end{column}
+
+\end{columns}
+\end{frame}
+
+\end{document}
