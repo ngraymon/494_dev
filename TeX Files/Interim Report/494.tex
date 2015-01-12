@@ -1,14 +1,15 @@
 \pdfobjcompresslevel=0
-\documentclass[12pt,letterpaper, oneside, draft]{article}               % define the basic details of our document
-\usepackage{amsmath, commath, pgfplots, color, nicefrac}                         % get the packages we depend on
+\documentclass[12pt,letterpaper,oneside,final,titlepage]{article}               % define the basic details of our document
+\usepackage{amsmath, commath, pgfplots, datetime, color, nicefrac}                         % get the packages we depend on
 \usepackage{fullpage}                                                   % increases the dimensions of the page
 \usepackage{setspace}                                                   % this package double spaces our document for editing
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
+\usepackage[margin=0.7in]{geometry} 
+\usepackage[version=3]{mhchem}    
 \usepackage{braket}
 \numberwithin{equation}{section} % numbers equations based on the section they are in
 
-
-\pgfplotsset{compat=1.11} % this lines forces the package 'pgfplots' to use a specific version so that this document reliably compiles identically across all system
+\pgfplotsset{compat=1.8} % this lines forces the package 'pgfplots' to use a specific version so that this document reliably compiles identically across all system
 
 \addbibresource{ref.bib}
 
@@ -16,13 +17,14 @@
 \DeclareMathOperator{\Tr}{Tr}
 
 \begin{document}
-%\title{Semi-classical calculations of excited state energies}
-%\author{Neil Raymond
-%       \\ \texttt{ngraymon@uwaterloo.ca}}
-%\date{\today}
-%\maketitle 
-\doublespacing
+	\title{Semi-classical calculations of excited state energies}
+	\author{Neil Raymond
+	       \\ \texttt{ngraymon@uwaterloo.ca}}
+	\newdate{date_document_was_written}{5}{1}{2015}
+    \date{\displaydate{date_document_was_written}}
+    \maketitle
 
+\doublespacing
 %The format for the report should be a research proposal, where you outline the nature of your research project, the backgrounds to it from the literature, the techniques you will use for your research, and the results you hope to obtain. Maximum of 10 pages total, including a brief summary (200 words), references, and figures. Text should be double spaced, 12 point type. 
 
 \subsection*{Abstract}
