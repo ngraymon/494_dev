@@ -1,0 +1,52 @@
+\ProvidesPackage{beamerthemecustom}
+
+\selectcolormodel{cmyk}
+\mode<presentation>
+
+\setbeamertemplate{navigation symbols}{}
+
+\definecolor{titlebg}{rgb}{0.78,0.8,0.78}
+\definecolor{blockbg}{rgb}{0.94,0.96,0.94}
+
+\setbeamercolor*{block title}{bg=titlebg}
+\setbeamercolor*{block body}{bg=blockbg}
+
+\setbeamertemplate{block begin}{
+	\begin{beamercolorbox}[leftskip=1cm,colsep*=.75ex,ht=5ex]{block title}
+		\textbf{\Large \insertblocktitle}\vphantom{Pg}
+	\end{beamercolorbox}
+	\usebeamerfont{block body}
+	\vskip-0.2ex
+	\begin{beamercolorbox}[colsep*=.75ex,sep=.75ex,vmode]{block body}
+		\ifbeamercolorempty[bg]{block body}{\vskip-.25ex}{\vskip-.75ex}\vbox{}
+}
+
+\setbeamertemplate{block end}{
+	\end{beamercolorbox}
+	\vskip2.5ex
+}
+
+\setbeamertemplate{headline}{
+	\leavevmode
+	\begin{beamercolorbox}[wd=\linewidth]{headline}
+		\vskip4ex
+		\begin{columns}[T]
+			\begin{column}{.15\linewidth}
+			\end{column}
+			\begin{column}{.8\linewidth}
+				\vskip4ex
+				\raggedright
+				\textbf{\Huge{\inserttitle}} \\[2 ex]
+				\Large{\insertauthor} \\[1 ex]
+				\large{\insertinstitute \enskip \textbar \enskip \insertdate}
+			\end{column}
+			%\begin{column}{.10\linewidth}
+				%\vskip8ex
+				%\raggedleft
+				%\includegraphics[width=\linewidth]{images/logos/uwaterloo}
+			%\end{column}
+		\end{columns}
+	\end{beamercolorbox}
+}
+
+\mode<all>

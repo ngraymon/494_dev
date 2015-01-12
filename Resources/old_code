@@ -1,0 +1,49 @@
+''' Equation version three
+    fn = lambda d, denominator: (
+        (np.sqrt(2.0) / (P-1))
+        * q(d, denominator)
+        * np.exp(  (m * Units.k_B * np.power((right(d) - left(d)), 2) / (4.0 * Units.hbar * Units.hbar * tau))
+                +  ((beta * (P-1) * np.power(p(d),2)) / (2.0 * Units.k_B * m))
+                ) 
+        * np.cos( (p(d) * (left(d) - right(d))) / Units.hbar ))
+
+    return (fn(0, denominator) + fn(1, denominator) + fn(2, denominator)) / 3
+'''
+
+''' Equation version  two
+fn = lambda d, denominator: (
+    (np.sqrt(2.0) / (P-1))
+    * q(d, denominator)
+    * np.exp(  (m * Units.k_B * np.power((right(d) - left(d)), 2) / (4.0 * Units.hbar * Units.hbar * tau))
+            +  ((beta * (P-1) * np.power(p(d),2)) / (2.0 * Units.k_B * m))
+            +  (m * w_2 * tau * ( np.power(left(d), 2) + (2 * np.power(middle(d), 2)) + np.power(right(d), 2) ) / (4.0 * Units.k_B))
+            ) 
+    * np.cos( (p(d) * (left(d) - right(d))) / Units.hbar ))
+
+semi_classical_array[i] = (fn(0, denominator) + fn(1, denominator) + fn(2, denominator)) / 3.0
+'''
+
+''' Equation version one
+semi_classical_array[i][dimension_index] = (
+        (np.sqrt(2.0) / (P-1))
+        * left(atom) 
+        * right(atom) 
+        * np.exp( factor 
+                  * (( (beta * (P-1) * np.power(p(atom), 2)) / (2.0 * m))  
+                    + (( m * tau * w_2 * 0.25) * ( np.power(left(atom), 2) + (2 * np.power(middle(atom), 2)) + np.power(right(atom), 2) )) 
+                    )
+                ) 
+        * np.cos( (p(atom) * (right(atom) - left(atom))) / Units.hbar ))
+'''
+
+
+# collect information of energies
+potential_array = np.empty(len(trajectoryNVT))
+
+# the energy estimator
+def estimator_E(u_verse, i):
+    def V(atom_index, bead_index): # use the norm squared, divided by three to give us the average position in 3dimensions
+        return (0.5 * (u_verse.atomList()[atom_index].mass() * w_2) * (pow(u_verse.atomList()[atom_index].beadPositions()[bead_index].length(), 2) / 3.0 ))
+
+    potential_array[i] = (V(atom_index = 0, bead_index = 0) + V(atom_index = 0, bead_index = -1)) * 0.5
+   # end
