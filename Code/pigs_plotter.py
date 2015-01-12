@@ -13,9 +13,6 @@ matplotlib.use('Agg')
 from pylab import *
 import os
 
-
-
-
 # get the input paramaters
 try:
     input_file = open("plotdata.batchjoboutput")

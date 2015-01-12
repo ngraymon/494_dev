@@ -11,7 +11,6 @@ from MMTK.Trajectory                    import Trajectory, TrajectoryOutput
 from MMTK.Environment                   import PathIntegrals
 # used for running unix commands, specifically to submit jobs to the server
 import subprocess
-
 import numpy as np
 
 # handle arguments
