@@ -114,6 +114,13 @@ Accurate and efficient measurements of molecular properties, such as energy stat
 		\item The HK propogator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
 		\item Additionally in the $\lim_{\gamma \to \infty}$ limit HK-IVR reduces to the co-ordinate space Van Vleck-IVR [cite]. 
 	\end{enumerate}
+	The HK propogator: $\int \!\dif x\, \braket{q, p | x}  \braket{x | \Psi} $
+	\begin{equation}
+		HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
+		\ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
+		\exp{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
+	\end{equation}
+
 	The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
 	The purpose of SC in the time domain is to find an appropriate description of the quantum propogator $e^{\frac{-i\hat{H}t}{\hbar}}$ 
 	in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
