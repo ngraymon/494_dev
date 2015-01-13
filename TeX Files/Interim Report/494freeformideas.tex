@@ -24,6 +24,8 @@ We are interested in
 	\item Major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy.
 \end{itemize}
 
+\newpage v
+
 \section{Methodology}
 
 Our approach to this research problem is to utilize corrleation functions because they offer a means of probing dynamic systems. The [name] amplitutde correlation function will be used to calculate excited state energies.[insert equation]\\
@@ -39,21 +41,6 @@ Path integral ground state methods provide good results. [cite] We made [x] deci
 
 
 
-\subsection*{Test Case}
-Before we preform the test case we confirm the accuracy of our implementation of PIGS by comparing simulated $\beta$ and $\tau$.
-The primary test case will be an electron in a one dimensional harmonic oscillator. 
-\begin{align}
-	\hat{H} &= \hat{V}(x) + \hat{K}(x) \\
-			&= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
-\end{align}
-PIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
-The estimator used to find the energy will be: (our operator commutes with the Hamiltonian)
-\begin{equation}
-	\Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
-\end{equation}
-Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
-\\ \\
-The secondary test case will be an electron in a on dimensional double well. Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
 
 \section{Fourth}
  Use the Path Integral Monte Carlo method used to simulate quantum systems at finite temperatures, to calculate ground state quantities. Ground state energies and other properties have long been calculated using Monte Carlo methods. A variety of ground state properties of quantum systems can be calculated without extrapolation by using a ground state path integral method. Path integral formulation of quantum mechanics allows systems to be represented using chains of classical particles. \\

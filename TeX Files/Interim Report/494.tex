@@ -3,6 +3,7 @@
 \usepackage{amsmath, commath, pgfplots, datetime, color, nicefrac}                         % get the packages we depend on
 \usepackage{fullpage}                                                   % increases the dimensions of the page
 \usepackage{setspace}                                                   % this package double spaces our document for editing
+\usepackage[scientific-notation=true]{siunitx}
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
 \usepackage[margin=0.7in]{geometry} 
 \usepackage[version=3]{mhchem}    
@@ -30,10 +31,13 @@
 
 \subsection*{Abstract}
 A path integral ground state method will be used to calculate inital conditions of a semiclassical initial value representation approach for molecular systems. 
-It is hypothesised that this approach will yield accurate energy spectrums from which excited state energies can be obtained. 
+It is hypothesised that this approach will yield accurate energy spectra from which excited state energies can be obtained. 
 
+QM to describe work
 
 \section{Introduction}
+
+
 \begin{description}
 
     \item[Hamiltonian] \hfill \\
@@ -128,6 +132,23 @@ Accurate and efficient measurements of molecular properties, such as energy stat
 \end{enumerate}
 
 \section{Preliminary Results}
+
+\subsection*{Harmonic Oscillator}
+The primary test case being investigated is a single electron in a one dimensional harmonic oscillator. 
+The Hamiltonian of our electron, with $m = \num{0.000548579909}$ (units?): 
+\begin{align}
+	\hat{H} &= \hat{V}(x) + \hat{K}(x) \\
+			&= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
+\end{align}
+We will simulate a one dimensional harmonic oscillator by averaging the results from a PIGS simulation preformed in three dimensions. 
+The estimator used to find the energy will be:
+\begin{equation}
+	\Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
+\end{equation}
+Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
+\\ \\
+The secondary test case will be an electron in a on dimensional double well. Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
+
 \begin{enumerate}
 	\item Initial issues
 	\item Tried to use different estimator
