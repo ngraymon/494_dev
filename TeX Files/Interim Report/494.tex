@@ -51,6 +51,52 @@ ground state (PIGS) technique to obtain accurate excited state energies~\cite{is
 
 \newpage
 
+\section{How?}
+The properties of interest are the excited state energies of some molecular system. 
+Path integral molecular dynamics allows us to simulate a molecular system. 
+Given this simulated system how will we obtain the properties of interest?
+Correlation functions are a useful set of functions for probing dynamic systems.
+A correlation function [stuff].
+Correlation functions also have the useful property of producing an intensity spectrum after being fourier transformed.
+So we can construct a correlation function such that the fourier transform produces an energy spectrum, where the peaks
+represent (energy level jumps).
+If we knew the ground state energy of a molecular system and this correlation function then we would be able to obtain the properties of interest.
+
+Some quick equations, for some operator/value an estimator $\braket{\hat{Q}}$ can be represented quantum mechanically:
+\begin{equation}
+    \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}}
+\end{equation}
+Using the approximation $\ket{0}_{\beta} = e^{\frac{-\beta\hat{H}}{2}}\ket{\psiT}$ 
+from PIGS we can rexpress $\braket{\hat{Q}}$ as
+\begin{align}
+	\braket{\hat{Q}} 
+	    &= \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} 
+	\\	&= \frac{\bra{0}_{\beta}\hat{Q}\ket{0}_{\beta}}{\bra{0}_{\beta}\ket{0}_{\beta}}
+	\\	&= \frac{\braket{\psiT|e^{\frac{-\beta\hat{H}}{2}}\hat{Q}e^{\frac{-\beta\hat{H}}{2}}|\psiT}}
+				{\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}} 
+\end{align}
+Now we insert resolutions of the identity 
+$\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]\left[\prod_{j=0}^{P-2}\ket{q^{(j)}}\bra{q^{(j+1)}}\right]$
+\begin{align}
+	\braket{\hat{Q}} 
+		&=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
+				\left[\prod_{j=0}^{M-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
+				\braket{q^{(M-1)}|e^{-\tau\hat{H}}\hat{Q}|q^{(M)}}
+				\left[\prod_{j=M}^{P-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
+				}
+			   {\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}}
+	\\  &=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
+				\left[\prod_{j=0}^{P-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
+				A(q_{M})
+				}
+			   {\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}}
+	\\	&=
+\end{align}
+
+
+
+
+
 \subsection{Theoretical background}
 \begin{description}
     \item[Hamiltonian] \hfill \\
