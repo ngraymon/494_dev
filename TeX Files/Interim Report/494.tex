@@ -5,7 +5,7 @@
 \usepackage{setspace}                                                   % this package double spaces our document for editing
 \usepackage[scientific-notation=true]{siunitx}
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
-\usepackage[margin=0.7in]{geometry} 
+\usepackage[margin=0.6in]{geometry} 
 \usepackage[version=3]{mhchem}    
 \usepackage{braket}
 \numberwithin{equation}{section} % numbers equations based on the section they are in
@@ -15,6 +15,13 @@
 \addbibresource{ref.bib}
 
 \newcommand{\psiT}{\psi_{\textrm{T}}}
+\newcommand{\eBHf}{e^{\frac{-\beta\hat{H}}{2}}}
+\newcommand{\eBH}{e^{-\beta\hat{H}}}
+\newcommand{\eTH}{e^{-\tau\hat{H}}}
+\newcommand{\emiHt}{e^{\frac{-i\hat{H}t}{\hbar}}}
+\newcommand{\eiHt}{e^{\frac{i\hat{H}t}{\hbar}}}
+
+\newcommand{\expb}[1]{\ensuremath{\exp{\left[ #1 \right]}}}
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \DeclareMathOperator{\Tr}{Tr}
 
@@ -42,10 +49,11 @@ There are many different methods for calculating these values.
 We propose a combination of a path integral ground state method and a semiclassical method. 
 Classical methods, such as molecular dynamics simulations, are regularly used in comercial environments[cite]. 
 Such methods are only adequate when the properties of interest do not exhibit significant quantum effects. 
-Quantum mechanical calculations give exact results but are very slow or impossible for certain problems. 
-These are key factors driving the interest in semiclassical methods, because they are based on classical trajectories but incorporate quantum effects. 
-Semiclassical methods can be both fast and accurate for certain problems. 
-It has been shown that ground state energies, for molecular systems, can be calculated using a semiclassical method with good accuracy and speed[cite]. 
+Quantum mechanical analytical methods give exact results but are very slow or intractable for certain problems. 
+These are key factors driving the interest in semiclassical methods, because they are based on classical trajectories, 
+which are computationally efficient, but incorporate quantum effects. 
+Semiclassical methods can be both efficient and accurate for certain problems. 
+It has been shown that ground state energies, for molecular systems, can be calculated using a path integral ground state method with good accuracy and speed[cite]. 
 In the research we propose, we will combine a semiclassical initial value representation technique (SC-IVR) with a path integral 
 ground state (PIGS) technique to obtain accurate excited state energies~\cite{issack2007semiclassical}~\cite{schmidt2014inclusion}.
 
@@ -55,51 +63,113 @@ ground state (PIGS) technique to obtain accurate excited state energies~\cite{is
 The properties of interest are the excited state energies of some molecular system. 
 Path integral molecular dynamics allows us to simulate a molecular system. 
 Given this simulated system how will we obtain the properties of interest?
-Correlation functions are a useful set of functions for probing dynamic systems.
+Correlation functions are versatile functions that can be used to probe dynamical systems.
 A correlation function [stuff].
 Correlation functions also have the useful property of producing an intensity spectrum after being fourier transformed.
 So we can construct a correlation function such that the fourier transform produces an energy spectrum, where the peaks
 represent (energy level jumps).
-If we knew the ground state energy of a molecular system and this correlation function then we would be able to obtain the properties of interest.
+If we know the ground state energy of a molecular system and this correlation function then we would be able to obtain the properties of interest. \\ \\
+We can express correlation functions in general as follows:
+\begin{equation}
+    C(t) = \frac{1}{Z}\Tr[\eBH\hat{B}\eiHt\hat{A}\emiHt]
+\end{equation}
+Where $\eBH$ is the thermal density operator, $Z = \Tr(\eBH)$ is the canonical partition function 
+and $\eiHt\hat{A}\emiHt=\hat{A}(t)$ is the Heisenberg representation of the operator $\hat{A}$.
+
+We are interested in the [name] correlation function so our correlation function is $\braket{\hat{q}(t)\hat{q}}$. 
+If we expand:
+\begin{align}
+    C(t) &= \braket{\hat{q}(t)\hat{q}}
+    \\   &= \braket{0|\hat{q}(t)\hat{q}|0}
+    \\   &= \braket{0|\eiHt\hat{q}\emiHt\hat{q}|0}
+\end{align}
+We know that $\hat{H}\ket{\psi_{n}} = E_{n}\ket{\psi_{n}}$ so $\eiHt$ can act on the left and 
+then we pull out the constant $e^{\frac{iE_{0}t}{\hbar}}$:\\
+We know that $\hat{H}\ket{\psi_{n}} = E_{n}\ket{\psi_{n}}$ so $\bra{0}\eiHt = \bra{0}e^{\frac{iE_{0}t}{\hbar}}$:
+\begin{equation}
+    C(t) = e^{\frac{iE_{0}t}{\hbar}}\braket{0|\hat{q}\emiHt\hat{q}|0}
+\end{equation}
+Now we insert two resolutions of the identity
+$\int\int \dif q_{A}\dif q_{B} \ket{q_{A}}\bra{q_{A}}\ket{q_{B}}\bra{q_{B}}$
+\begin{align}
+    C(t) &= e^{\frac{iE_{0}t}{\hbar}}\int\int \dif q_{A}\dif q_{B} 
+    \braket{0|q_{A}}\braket{q_{A}|\hat{q}\emiHt\hat{q}|q_{B}}\braket{q_{B}|0}
+    \\   &= e^{\frac{iE_{0}t}{\hbar}}\int\int \dif q_{A}\dif q_{B} 
+    q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|\emiHt|q_{B}}\braket{q_{B}|0}
+\end{align}
+So we can calculate $\braket{0|q_{A}} \& \braket{q_{B}|0}$ (right?) but the real-time propagator $\emiHt$ is troublesome because 
+it does not commute and $\emiHt\ket{q_{B}}$ is intractable. 
+An approximation to the real-time propagator is the Herman-Kluck propagator which we will use. \\ The HK propagator:
+\begin{equation}
+    HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
+    \ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
+    \expb{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
+\end{equation}
+Substituting the HK propagator into our correlation function:
+\begin{equation*}
+    C(t) \approx \frac{e^{\frac{iE_{0}t}{\hbar}}}{2\hbar\pi}\int\cdots\int\! \dif p\,\!\dif q\,\!\dif q_{A}\,\!\dif q_{B}\,
+    q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p(t), q(t)} \braket{p,q|q_{B}}\braket{q_{B}|0}
+    R(p(t),q(t)) \expb{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
+\end{equation*}
+For $t=0$
+\begin{equation*}
+    C(t=0) \approx \frac{1}{2\hbar\pi}\int\cdots\int\! \dif p\,\!\dif q\,\!\dif q_{A}\,\!\dif q_{B}\,
+    q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p(t), q(t)} \braket{p,q|q_{B}}\braket{q_{B}|0}
+\end{equation*}
+
+
+\begin{enumerate}
+    \item Talk about $c(t) = \braket{\hat{q}(t)\hat{q}} $and how the $\hat{H}\ket{0} = E_{0}\ket{0}$
+    \item Talk about "fictioious momenta" p and mass $m^{*}$
+    \item Talk about two choices $\gamma = \frac{m}{\hbar^{2}\tau}$ and $m^{*} = \frac{m}{P-1}$
+    \item Use Euler's equation and the momentum distribution (symmetric around zero) and the fact that sin is odd to make the imaginary part go away
+\end{enumerate}
+
+
+
 
 Some quick equations, for some operator/value an estimator $\braket{\hat{Q}}$ can be represented quantum mechanically:
 \begin{equation}
     \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}}
 \end{equation}
-Using the approximation $\ket{0}_{\beta} = e^{\frac{-\beta\hat{H}}{2}}\ket{\psiT}$ 
-from PIGS we can rexpress $\braket{\hat{Q}}$ as
+We make an approximation for some finite $\beta$ that the exact ground state wavefunction $\ket{0} \approx \ket{0}_{\beta}$.
+This is useful because the equality($\lim{\beta \to \infty}$?) $\ket{0}_{\beta} = \eBHf\ket{\psiT}$ allows us to rexpress $\braket{\hat{Q}}$ as
+\begin{equation}
+	\braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} \approx \frac{\braket{\psiT|\eBHf\hat{Q}\eBHf|\psiT}} {\braket{\psiT|\eBH|\psiT}} 
+\end{equation}
+Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
+A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\
+Let $\beta = (P-1)\tau$ and $M = \frac{(P-1)}{2}$ then we can reexpress $\braket{\hat{Q}}$ using the equality $\eBH = \prod_{j=0}^{P-1} \eTH$
 \begin{align}
-	\braket{\hat{Q}} 
-	    &= \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} 
-	\\	&= \frac{\bra{0}_{\beta}\hat{Q}\ket{0}_{\beta}}{\bra{0}_{\beta}\ket{0}_{\beta}}
-	\\	&= \frac{\braket{\psiT|e^{\frac{-\beta\hat{H}}{2}}\hat{Q}e^{\frac{-\beta\hat{H}}{2}}|\psiT}}
-				{\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}} 
+    \braket{\hat{Q}} = \frac{\braket{\psiT|
+                            \left[\prod_{j=0}^{M-1} \eTH\right]
+                            \hat{Q}
+                            \left[\prod_{j=M}^{P-1} \eTH\right]
+                            |\psiT}}
+                            {\braket{\psiT|\left[\prod_{j=0}^{P-1} \eTH\right]|\psiT}} 
 \end{align}
 Now we insert resolutions of the identity
-$\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]\left[\prod_{j=0}^{P-2}\ket{q^{(j)}}\bra{q^{(j+1)}}\right]$
+$\int\cdots\int\left[\prod_{j=0}^{P-1}\dif q^{(j)}\ket{q^{(j)}}\bra{q^{(j)}}\right]$ or
+$\int \dif q\ket{q}\bra{q}$
+
 \begin{align}
 	\braket{\hat{Q}} 
 		&=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
-				\left[\prod_{j=0}^{M-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
-				\braket{q^{(M-1)}|e^{-\tau\hat{H}}\hat{Q}|q^{(M)}}
-				\left[\prod_{j=M}^{P-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
+                \braket{\psiT|q^{(0)}}
+				\left[\prod_{j=0}^{M-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+				\braket{q^{(M-1)}|\eTH\hat{Q}|q^{(M)}}
+				\left[\prod_{j=M}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{P-1}|\psiT}
 				}
-			   {\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}}
+			   {\braket{\psiT|\eBH|\psiT}}
 	\\  &=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
-				\left[\prod_{j=0}^{P-2}\braket{q^{(j)}|e^{-\tau\hat{H}}|q^{(j+1)}}\right]
-				A(q_{M})
+                \braket{\psiT|q^{(0)}}
+				\left[\prod_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+				\braket{q^{(P-1)}|\psiT}
 				}
-			   {\braket{\psiT|e^{ -\beta\hat{H}}|\psiT}}
-	\\	&=
+			   {\braket{\psiT|\eBH|\psiT}}A(q_{M})
 \end{align}
-
-\begin{enumerate}
-	\item Talk about \braket{\psiT|q} = 1
-	\item Talk about c(t) = \braket{\hat{x}(t)\hat{x}} and how the \hat{H}\ket{0} = E_{0}\ket{0}
-	\item Talk about real-time propagator replaced with HK propagator
-	\item Talk about "fictioious momenta" p and mass m^{*}
-\end{enumerate}
-
+Say something about $\braket{\psiT|q} =$ the inner product, for the ground state $\braket{\psi_{0}|q} = \braket{0|q} = 1$
 
 
 
@@ -154,9 +224,9 @@ $\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]\left[\prod_{j=0}^{P-2}\ket
 
     Given a state $\ket{\Psi(t)}$ at some initial time (t = 0) (if H is independent of time):
     \begin{equation}
-        \ket{\psi(t)} = e^{\frac{-iHt}{\hbar}}\ket{\psi(0)}
+        \ket{\psi(t)} = \emiHt\ket{\psi(0)}
     \end{equation}
-    By the homomorphism property of the functional calculus, the operator $U = e^{\frac{-iHt}{\hbar}}$ is a unitary operator.
+    By the homomorphism property of the functional calculus, the operator $U = \emiHt$ is a unitary operator.
     It is the time evolution operator, or propagator, of a closed quantum system. 
     In general:
     \begin{equation}
@@ -185,30 +255,17 @@ $\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]\left[\prod_{j=0}^{P-2}\ket
     We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
     The LePIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
     We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.\\
-    A simple example of an estimator to find the energy:
-    \begin{equation}
-        \Braket{E} 
-        = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
-        = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}} \hat{H}|\psiT}
-    \end{equation}
-    The estimator used to find the energy will be: (our operator commutes with the Hamiltonian):
-    \begin{equation}
-        \Braket{O} 
-        = \frac{\Braket{\psiT|e^{\frac{-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
-        = \frac{1}{Z_{o}} \Braket{\psiT|e^{\frac{zx-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}
-    \end{equation}
-    Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-    A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
 
-    \item Use HK $\&$ to get dynamics $e^{\frac{i\hat{H}T}{\hbar}}$ \\
+
+    \item Use HK $\&$ to get dynamics $\eiHt$ \\
     SC-IVR methods are capable of describing essentially all quantum effects that are based on the phase information of the wave function.
-    We chose to use the Herman-Kluck (HK) propogator instead of the Van Vleck-GutzWiller for a number of reasons:
+    We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-GutzWiller for a number of reasons:
     \begin{enumerate}
-        \item The HK propogator is not restricted to small systems based on CT determined by initial and final positions.
-        \item The HK propogator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
+        \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions.
+        \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
         \item Additionally in the $\lim_{\gamma \to \infty}$ limit HK-IVR reduces to the co-ordinate space Van Vleck-IVR [cite]. 
     \end{enumerate}
-    The HK propogator:
+    The HK propagator:
     \begin{equation}
         HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
         \ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
@@ -216,19 +273,9 @@ $\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]\left[\prod_{j=0}^{P-2}\ket
     \end{equation}
 
     The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
-    The purpose of SC in the time domain is to find an appropriate description of the quantum propogator $e^{\frac{-i\hat{H}t}{\hbar}}$ 
+    The purpose of SC in the time domain is to find an appropriate description of the quantum propagator $\emiHt$ 
     in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
     It does this by propogating clasical trajectories uniquely defined by their initial conditions.
-
-    \item introduce correlation function $C(t) = \Braket{0|e^{\frac{i\hat{H}t}{\hbar}}\hat{x}e^{\frac{-i\hat{H}t}{\hbar}}\hat{x}|0} 
-                                               = \Braket{\hat{x}(t)\hat{x}} 
-                                               = e^{\frac{-iE_{0}t}{\hbar}}\Braket{0|\hat{x}e^{\frac{i\hat{H}t}{\hbar}}\hat{x}|0}$\\
-    We can also express a general correlation function as follows:
-    \begin{equation}
-        C(t) = \frac{1}{Z}\Tr[e^{-\beta\hat{H}}\hat{B}e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}]
-    \end{equation}
-    Where $e^{-\beta\hat{H}}$ is the thermal density operator, $Z = \Tr(e^{-\beta\hat{H}})$ is the canonical partition function 
-    and $e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}=\hat{A}(t)$ is the Heisenberg representation of the operator $\hat{A}$.
 \end{enumerate}
 
 
@@ -244,7 +291,7 @@ The Hamiltonian of our electron, with $m = \num{0.000548579909}$ (units?):
 We will simulate a one dimensional harmonic oscillator by averaging the results from a PIGS simulation preformed in three dimensions. 
 The estimator used to find the energy will be:
 \begin{equation}
-    \Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
+    \Braket{E} = \frac{\Braket{\psiT|\eBH\hat{H}|\psiT}}{\Braket{\psiT|\eBH|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|\eBH|\psiT}
 \end{equation}
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
 \\ \\
