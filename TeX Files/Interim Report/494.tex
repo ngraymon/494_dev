@@ -19,10 +19,10 @@
 \DeclareMathOperator{\Tr}{Tr}
 
 \begin{document}
-	\title{Semi-classical calculations of excited state energies}
-	\author{Neil Raymond
-	       \\ \texttt{ngraymon@uwaterloo.ca}}
-	\newdate{date_document_was_written}{5}{1}{2015}
+    \title{Semi-classical calculations of excited state energies}
+    \author{Neil Raymond
+           \\ \texttt{ngraymon@uwaterloo.ca}}
+    \newdate{date_document_was_written}{5}{1}{2015}
     \date{\displaydate{date_document_was_written}}
     \maketitle
 
@@ -33,110 +33,151 @@
 A path integral ground state method will be used to calculate inital conditions of a semiclassical initial value representation approach for molecular systems. 
 It is hypothesised that this approach will yield accurate energy spectra from which excited state energies can be obtained. 
 
-QM to describe work
-
 \section{Introduction}
 
+\subsection{A bit of prelude}
+Accurate and efficient measurements of molecular properties, such as energy states, is an area of active research in theoretical chemistry. 
+The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner[cite]. 
+There are many different methods for calculating these values. 
+We propose a combination of a path integral ground state method and a semiclassical method. 
+Classical methods, such as molecular dynamics simulations, are regularly used in comercial environments[cite]. 
+Such methods are only adequate when the properties of interest do not exhibit significant quantum effects. 
+Quantum mechanical calculations give exact results but are very slow or impossible for certain problems. 
+These are key factors driving the interest in semiclassical methods, because they are based on classical trajectories but incorporate quantum effects. 
+Semiclassical methods can be both fast and accurate for certain problems. 
+It has been shown that ground state energies, for molecular systems, can be calculated using a semiclassical method with good accuracy and speed[cite]. 
+In the research we propose, we will combine a semiclassical initial value representation technique (SC-IVR) with a path integral 
+ground state (PIGS) technique to obtain accurate excited state energies~\cite{issack2007semiclassical}~\cite{schmidt2014inclusion}.
 
+\newpage
+
+\subsection{Theoretical background}
 \begin{description}
-
     \item[Hamiltonian] \hfill \\
-    Hamiltonian of a particle is:
+    We are interested in the excited state energies of a molecular system. 
+    Clearly we will encounter the Hamiltonian $\hat{H} = \hat{K} + \hat{V}$ because it is the operator corresponding to the total energy of the system.
+    The Hamiltonian generates the evolution of quantum states over time. 
+    We will restrict our investigation to one dimension. 
+    For a system of $N$ particles, where $\hat{V}$ is the potential energy operator that describes the interactions between 
+    all particles of the system, $m_{i}$ is the mass for particle $i$ and $\hat{p}_{i}$ is the momentum operator, the Hamiltonian is:
     \begin{equation}
-    	\hat{H} = \hat{K} + \hat{V}
+        \hat{H} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V}
     \end{equation}
-    Form used in the Schrodinger equation:
-    \begin{equation}
-    	\hat{H} = \frac{-\hbar^{2}}{2m}\nabla^{2} + V(\vec{r},t)
-    \end{equation}
-    Restricted to potentials depending only on position:
-    \begin{equation}
-    	\hat{H} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
-    \end{equation}
+
+    But the Hamiltonian in classical mechanics is derived from a Lagrangian. 
+    The Hamiltonian tells you how to march forward in time, but the time is different in different reference frames. 
+    So the Hamiltonian is different in different frames, and this type of symmetry is not apparent in the original formulation of quantum mechanics.
+    The Hamiltonian is a function of the position and momentum at one time, and it tells you the position and momentum a little later. 
+    The Lagrangian is a function of the position now and the position a little later (or, equivalently for infinitesimal time separations, it is a function of the position and velocity). 
+
+
 
     \item[Time dependent Schrodinger] \hfill \\
-    In general:
+    The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. General time-dependent schrodinger equation:
     \begin{equation}
-    	i\hbar\dpd{}{t}\Psi = \hat{H}\Psi	
+        \hat{H}\Psi = i\hbar\dpd{}{t}\Psi
+    \end{equation}
+
+
+    Knowing the ground state energy of the particles in our system, how do we obtain the excited state energies? 
+    Using the time[in]dependent Schrodinger equation of course! 
+    Given a state $\ket{\Psi(t)}$ at some initial time (t = 0), we can solve it to obtain the state at any subsequent time.
+    \begin{equation}
+        \hat{H}\ket{\psi(t)} = i\hbar\dpd{}{t}\ket{\psi(0)}  
     \end{equation}
     For a single non-relativistic particle:
     \begin{equation}
-    	i\hbar\dpd{}{t}\Psi(\vec{r},t) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r},t)\right]\Psi(\vec{r},t)
+        i\hbar\dpd{}{t}\Psi(\vec{r},t) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r},t)\right]\Psi(\vec{r},t)
     \end{equation}
 
     \item[Time independent Schrodinger] \hfill \\
+    The Schrodinger equation describes the (determinisitic) evolution of the wave function of a particle.
+    It predicts what the probability distributions are, but fundamentally cannot predict the exact result of each measurement.
+    The time-independent(of the Hamiltonian) Schrodinger equation describes stationary states.
+    General equation:
+    \begin{equation}
+        \hat{H}\Psi = E\Psi
+    \end{equation}
+
+    Given a state $\ket{\Psi(t)}$ at some initial time (t = 0) (if H is independent of time):
+    \begin{equation}
+        \ket{\psi(t)} = e^{\frac{-iHt}{\hbar}}\ket{\psi(0)}
+    \end{equation}
+    By the homomorphism property of the functional calculus, the operator $U = e^{\frac{-iHt}{\hbar}}$ is a unitary operator.
+    It is the time evolution operator, or propagator, of a closed quantum system. 
     In general:
     \begin{equation}
-    	E\Psi = \hat{H}\Psi
+        E_{n}\psi_{n} = \hat{H}_{n}\psi_{n}
     \end{equation}
     For a single non-relativistic particle:
     \begin{equation}
-    	E\Psi(\vec{r}) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r})\right]\Psi(\vec{r})
+        E\Psi(\vec{r}) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r})\right]\Psi(\vec{r})
     \end{equation}
+
+    \item[Path integral formulation] \hfill \\
+    A description of quantum theory which generalizes the action principle of classical mechanics.
+    The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to computer a quantum amplitude.
+    It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system.    
 \end{description} 
-
-
-\subsection{A bit of prelude}
-Accurate and efficient measurements of molecular properties, such as energy states, is an area of active research in theoretical chemistry. The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner[cite]. There are many different methods for calculating these values, we propose a combination of a path integral ground state method and a semiclassical method. Classical methods, such as molecular dynamics simulations, are regularly used in comercial environments[cite]. Such methods are only adequate when the properties of interest do not exhibit significant quantum effects.Quantum mechanical calculations give exact results but are very slow or impossible for certain problem sets. These are key factors driving the interest in semiclassical methods, because they are based on classical trajectories but incorporate quantum effects. Semi-classical methods can be both fast and accurate for certain problem sets. It has been shown that ground state energies, for molecular systems, can be calculated using a semiclassical method with good accuracy and speed[cite]. In the research we propose, we will combine semiclassical techniques with path integral ground state techniques (PIGS) to obtain accurate excited state energies~\cite{issack2007semiclassical}~\cite{schmidt2014inclusion}.
 
 \section{Proposal}
 \begin{enumerate}
-	\item Use PIGS to get $\ket{0}$
-	Considering only the potentials that depend on position we can write the general Hamiltonian as:
-	\begin{equation}
-		\hat{H} = \hat{K} + \hat{V} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
-	\end{equation}
-	We are interested in finding the expectation value of the energy operator in the ground state. 
-	This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
-	We use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
-	The LePIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
-	We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.\\
-	A simple example of an estimator to find the energy:
-	\begin{equation}
-		\Braket{E} 
-		= \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
-		= \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}} \hat{H}|\psiT}
-	\end{equation}
-	The estimator used to find the energy will be: (our operator commutes with the Hamiltonian):
-	\begin{equation}
-		\Braket{O} 
-		= \frac{\Braket{\psiT|e^{\frac{-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
-		= \frac{1}{Z_{o}} \Braket{\psiT|e^{\frac{zx-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}
-	\end{equation}
-	Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-	A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
+    \item Use PIGS to get $\ket{0}$
+    Considering only the potentials that depend on position we can write the general Hamiltonian as:
+    \begin{equation}
+        \hat{H} = \hat{K} + \hat{V} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
+    \end{equation}
+    We are interested in finding the expectation value of the energy operator in the ground state. 
+    This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
+    We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
+    The LePIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
+    We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.\\
+    A simple example of an estimator to find the energy:
+    \begin{equation}
+        \Braket{E} 
+        = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
+        = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}} \hat{H}|\psiT}
+    \end{equation}
+    The estimator used to find the energy will be: (our operator commutes with the Hamiltonian):
+    \begin{equation}
+        \Braket{O} 
+        = \frac{\Braket{\psiT|e^{\frac{-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} 
+        = \frac{1}{Z_{o}} \Braket{\psiT|e^{\frac{zx-\beta\hat{H}}{2}} \hat{H} e^{\frac{-\beta\hat{H}}{2}}|\psiT}
+    \end{equation}
+    Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
+    A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
 
-	\item Use HK $\&$ to get dynamics $e^{\frac{i\hat{H}T}{\hbar}}$ \\
-	SC-IVR methods are capable of describing essentially all quantum effects that are based on the phase information of the wave function.
-	We chose to use the Herman-Kluck (HK) propogator instead of the Van Vleck-GutzWiller for a number of reasons:
-	\begin{enumerate}
-		\item The HK propogator is not restricted to small systems based on CT determined by initial and final positions.
-		\item The HK propogator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
-		\item Additionally in the $\lim_{\gamma \to \infty}$ limit HK-IVR reduces to the co-ordinate space Van Vleck-IVR [cite]. 
-	\end{enumerate}
-	The HK propogator: $\int \!\dif x\, \braket{q, p | x}  \braket{x | \Psi} $
-	\begin{equation}
-		HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
-		\ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
-		\exp{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
-	\end{equation}
+    \item Use HK $\&$ to get dynamics $e^{\frac{i\hat{H}T}{\hbar}}$ \\
+    SC-IVR methods are capable of describing essentially all quantum effects that are based on the phase information of the wave function.
+    We chose to use the Herman-Kluck (HK) propogator instead of the Van Vleck-GutzWiller for a number of reasons:
+    \begin{enumerate}
+        \item The HK propogator is not restricted to small systems based on CT determined by initial and final positions.
+        \item The HK propogator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
+        \item Additionally in the $\lim_{\gamma \to \infty}$ limit HK-IVR reduces to the co-ordinate space Van Vleck-IVR [cite]. 
+    \end{enumerate}
+    The HK propogator:
+    \begin{equation}
+        HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
+        \ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
+        \exp{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
+    \end{equation}
 
-	The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
-	The purpose of SC in the time domain is to find an appropriate description of the quantum propogator $e^{\frac{-i\hat{H}t}{\hbar}}$ 
-	in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
-	It does this by propogating clasical trajectories uniquely defined by their initial conditions.
+    The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
+    The purpose of SC in the time domain is to find an appropriate description of the quantum propogator $e^{\frac{-i\hat{H}t}{\hbar}}$ 
+    in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
+    It does this by propogating clasical trajectories uniquely defined by their initial conditions.
 
-	\item introduce correlation function $C(t) = \Braket{0|e^{\frac{i\hat{H}t}{\hbar}}\hat{x}e^{\frac{-i\hat{H}t}{\hbar}}\hat{x}|0} 
-											   = \Braket{\hat{x}(t)\hat{x}} 
-											   = e^{\frac{-iE_{0}t}{\hbar}}\Braket{0|\hat{x}e^{\frac{i\hat{H}t}{\hbar}}\hat{x}|0}$\\
-	We can also express a general correlation function as follows:
-	\begin{equation}
-		C(t) = \frac{1}{Z}\Tr[e^{-\beta\hat{H}}\hat{B}e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}]
-	\end{equation}
-	Where $e^{-\beta\hat{H}}$ is the thermal density operator, $Z = \Tr(e^{-\beta\hat{H}})$ is the partition function and $e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}=\hat{A}(t)$ is the Heisenberg representation of the operator $\hat{A}$.
-
-
+    \item introduce correlation function $C(t) = \Braket{0|e^{\frac{i\hat{H}t}{\hbar}}\hat{x}e^{\frac{-i\hat{H}t}{\hbar}}\hat{x}|0} 
+                                               = \Braket{\hat{x}(t)\hat{x}} 
+                                               = e^{\frac{-iE_{0}t}{\hbar}}\Braket{0|\hat{x}e^{\frac{i\hat{H}t}{\hbar}}\hat{x}|0}$\\
+    We can also express a general correlation function as follows:
+    \begin{equation}
+        C(t) = \frac{1}{Z}\Tr[e^{-\beta\hat{H}}\hat{B}e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}]
+    \end{equation}
+    Where $e^{-\beta\hat{H}}$ is the thermal density operator, $Z = \Tr(e^{-\beta\hat{H}})$ is the canonical partition function 
+    and $e^{\frac{i\hat{H}t}{\hbar}}\hat{A}e^{\frac{-i\hat{H}t}{\hbar}}=\hat{A}(t)$ is the Heisenberg representation of the operator $\hat{A}$.
 \end{enumerate}
+
 
 \section{Preliminary Results}
 
@@ -144,32 +185,33 @@ Accurate and efficient measurements of molecular properties, such as energy stat
 The primary test case being investigated is a single electron in a one dimensional harmonic oscillator. 
 The Hamiltonian of our electron, with $m = \num{0.000548579909}$ (units?): 
 \begin{align}
-	\hat{H} &= \hat{V}(x) + \hat{K}(x) \\
-			&= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
+    \hat{H} &= \hat{V}(x) + \hat{K}(x) \\
+            &= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
 \end{align}
 We will simulate a one dimensional harmonic oscillator by averaging the results from a PIGS simulation preformed in three dimensions. 
 The estimator used to find the energy will be:
 \begin{equation}
-	\Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
+    \Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
 \end{equation}
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
 \\ \\
 The secondary test case will be an electron in a on dimensional double well. Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
 
 \begin{enumerate}
-	\item Initial issues
-	\item Tried to use different estimator
-	\item Set momentum to zero
+    \item Initial issues
+    \item Tried to use different estimator
+    \item Set momentum to zero
 \end{enumerate}
 
 \section{Concluding Remarks}
 \begin{enumerate}
-	\item Filinov Filtering
+    \item Filinov Filtering
 \end{enumerate}
 
 
 \section{Acknowledgements}
-Dmitri Iouchtchenko was a key editor, and contributed significant effort to the mathematical equations presented in this paper. Pierre-Nicholas Roy was a key editor and supervisor.
+Dmitri Iouchtchenko was a key editor, and contributed significant effort to the mathematical equations presented in this paper. 
+Pierre-Nicholas Roy was a key editor and supervisor.
 
 \renewcommand*{\bibfont}{\scriptsize}
 \printbibliography
