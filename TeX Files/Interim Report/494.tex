@@ -5,7 +5,7 @@
 \usepackage{setspace}                                                   % this package double spaces our document for editing
 \usepackage[scientific-notation=true]{siunitx}
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
-\usepackage[margin=0.6in]{geometry} 
+\usepackage[margin=0.7in]{geometry} 
 \usepackage[version=3]{mhchem}    
 \usepackage{braket}
 \numberwithin{equation}{section} % numbers equations based on the section they are in
@@ -42,7 +42,7 @@ It is hypothesised that this approach will yield accurate energy spectra from wh
 
 \section{Introduction}
 
-\subsection{A bit of prelude}
+\subsection{Prelude}
 Accurate and efficient measurements of molecular properties, such as energy states, is an area of active research in theoretical chemistry. 
 The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner[cite]. 
 There are many different methods for calculating these values. 
@@ -59,7 +59,83 @@ ground state (PIGS) technique to obtain accurate excited state energies~\cite{is
 
 \newpage
 
-\section{How?}
+\subsection{Hamiltonian}
+We are interested in the excited state energies of a molecular system.
+Clearly we will encounter the Hamiltonian $\hat{H}$ because it is the operator corresponding to the total energy of the system.
+We will restrict our investigation to one dimension. 
+For a system of $N$ particles, where $\hat{V}$ is the potential energy operator that describes the interactions between 
+all particles of the system, $m_{i}$ is the mass for particle $i$ and $\hat{p}_{i}$ is the momentum operator, the Hamiltonian is:
+\begin{align}
+    \hat{H} &= \hat{K} + \hat{V}
+    \\      &= \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V}
+\end{align}
+
+But the Hamiltonian in classical mechanics is derived from a Lagrangian. 
+The Hamiltonian tells you how to march forward in time, but the time is different in different reference frames. 
+So the Hamiltonian is different in different frames, and this type of symmetry is not apparent in the original formulation of quantum mechanics.
+The Hamiltonian is a function of the position and momentum at one time, and it tells you the position and momentum a little later. 
+The Lagrangian is a function of the position now and the position a little later (or, equivalently for infinitesimal time separations, it is a function of the position and velocity). 
+
+
+\subsection{Time dependent Schrodinger}
+The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. 
+The Hamiltonian generates the evolution of quantum states over time. 
+The general time-dependent schrodinger equation:
+\begin{equation}
+    \hat{H}\ket{\psi} = i\hbar\frac{d}{dt}\ket{\psi}
+\end{equation}
+Knowing the ground state energy of the particles in our system, how do we obtain the excited state energies? 
+Using the time[in]dependent Schrodinger equation of course! 
+Given a state $\ket{\Psi(t)}$ at some initial time (t = 0), we can solve it to obtain the state at any subsequent time.
+\begin{equation}
+    \hat{H}\ket{\psi(t)} = i\hbar\dpd{}{t}\ket{\psi(t)}  
+\end{equation}
+
+\subsection{Time independent Schrodinger}
+The Schrodinger equation describes the (determinisitic) evolution of the wave function of a particle.
+It predicts what the probability distributions are, but fundamentally cannot predict the exact result of each measurement.
+The time-independent Schrodinger equation describes stationary states. \\
+The general form:
+\begin{equation}
+    \hat{H}\ket{\psi_{n}} = E_{n}\ket{\psi_{n}}
+\end{equation}
+
+Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $H$ being independent of time:
+\begin{equation}
+    \ket{\psi(t)} = \emiHt\ket{\psi(0)}
+\end{equation}
+We call $\emiHt$ the 
+By the homomorphism property of the functional calculus, the operator $U = \emiHt$ is a unitary operator.
+It is the time evolution operator, or propagator, of a closed quantum system. 
+
+
+
+\subsection{Path integral formulation}
+A description of quantum theory which generalizes the action principle of classical mechanics.
+The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to computer a quantum amplitude.
+It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system. 
+
+
+\section{Proposal}
+\subsection{Use PIGS to get $\ket{0}$}
+Considering only the potentials that depend on position we can write the general Hamiltonian as:
+\begin{equation}
+    \hat{H} = \hat{K} + \hat{V} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
+\end{equation}
+We are interested in finding the expectation value of the energy operator in the ground state. 
+This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
+We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
+Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
+using discretized path integrals. 
+We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.
+The ground state pseudo-partition function can be expressed in the discretized form as:
+\begin{equation}
+    a
+\end{equation}
+The LePIGS will be preformed in one dimension and the dimensional quantities will be used as initial conditions for the SC-IVR method.
+
+
+\subsection{Use HK $\&$ SC-IVR to get dynamics $\emiHt$} 
 The properties of interest are the excited state energies of some molecular system. 
 Path integral molecular dynamics allows us to simulate a molecular system. 
 Given this simulated system how will we obtain the properties of interest?
@@ -96,16 +172,24 @@ $\int\int \dif q_{A}\dif q_{B} \ket{q_{A}}\bra{q_{A}}\ket{q_{B}}\bra{q_{B}}$
     \braket{0|q_{A}}\braket{q_{A}|\hat{q}\emiHt\hat{q}|q_{B}}\braket{q_{B}|0}
     \\   &= e^{\frac{iE_{0}t}{\hbar}}\int\int \dif q_{A}\dif q_{B} 
     q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|\emiHt|q_{B}}\braket{q_{B}|0}
+    \label{eq:cor_ins}
 \end{align}
-So we can calculate $\braket{0|q_{A}} \& \braket{q_{B}|0}$ (right?) but the real-time propagator $\emiHt$ is troublesome because 
-it does not commute and $\emiHt\ket{q_{B}}$ is intractable. 
-An approximation to the real-time propagator is the Herman-Kluck propagator which we will use. \\ The HK propagator:
-\begin{equation}
-    HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
+
+The real-time propagator $\emiHt$ is troublesome because $\emiHt\ket{q_{B}}$ is intractable. 
+To overcome this problem we approximate the real-time propagator.
+Two widely used approximations to the real-time propagator are the Herman-Kluck propagator and the Van Vleck-GutzWiller propagator.
+We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-GutzWiller parimarily because:
+\begin{enumerate}
+    \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions. [cite]b
+    \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space. [cite]
+\end{enumerate}
+The HK propagator:
+\begin{equation}\label{eq:HKprop}
+    \hat{G}_{HK}(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
     \ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
     \expb{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
 \end{equation}
-Substituting the HK propagator into our correlation function:
+Substituting the HK propagator into our correlation function~\eqref{eq:cor_ins}:
 \begin{equation*}
     C(t) \approx \frac{e^{\frac{iE_{0}t}{\hbar}}}{2\hbar\pi}\int\cdots\int\! \dif p\,\!\dif q\,\!\dif q_{A}\,\!\dif q_{B}\,
     q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p(t), q(t)} \braket{p,q|q_{B}}\braket{q_{B}|0}
@@ -116,187 +200,34 @@ For $t=0$
     C(t=0) \approx \frac{1}{2\hbar\pi}\int\cdots\int\! \dif p\,\!\dif q\,\!\dif q_{A}\,\!\dif q_{B}\,
     q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p(t), q(t)} \braket{p,q|q_{B}}\braket{q_{B}|0}
 \end{equation*}
-
-
 \begin{enumerate}
-    \item Talk about $c(t) = \braket{\hat{q}(t)\hat{q}} $and how the $\hat{H}\ket{0} = E_{0}\ket{0}$
     \item Talk about "fictioious momenta" p and mass $m^{*}$
     \item Talk about two choices $\gamma = \frac{m}{\hbar^{2}\tau}$ and $m^{*} = \frac{m}{P-1}$
     \item Use Euler's equation and the momentum distribution (symmetric around zero) and the fact that sin is odd to make the imaginary part go away
 \end{enumerate}
+SC-IVR methods are capable of describing essentially all quantum effects that are based on the phase information of the wave function.
+The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
+The purpose of SC in the time domain is to find an appropriate description of the quantum propagator $\emiHt$ 
+in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
+It does this by propagating clasical trajectories uniquely defined by their initial conditions.
 
-
-
-
-Some quick equations, for some operator/value an estimator $\braket{\hat{Q}}$ can be represented quantum mechanically:
-\begin{equation}
-    \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}}
-\end{equation}
-We make an approximation for some finite $\beta$ that the exact ground state wavefunction $\ket{0} \approx \ket{0}_{\beta}$.
-This is useful because the equality($\lim{\beta \to \infty}$?) $\ket{0}_{\beta} = \eBHf\ket{\psiT}$ allows us to rexpress $\braket{\hat{Q}}$ as
-\begin{equation}
-	\braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} \approx \frac{\braket{\psiT|\eBHf\hat{Q}\eBHf|\psiT}} {\braket{\psiT|\eBH|\psiT}} 
-\end{equation}
-Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\
-Let $\beta = (P-1)\tau$ and $M = \frac{(P-1)}{2}$ then we can reexpress $\braket{\hat{Q}}$ using the equality $\eBH = \prod_{j=0}^{P-1} \eTH$
-\begin{align}
-    \braket{\hat{Q}} = \frac{\braket{\psiT|
-                            \left[\prod_{j=0}^{M-1} \eTH\right]
-                            \hat{Q}
-                            \left[\prod_{j=M}^{P-1} \eTH\right]
-                            |\psiT}}
-                            {\braket{\psiT|\left[\prod_{j=0}^{P-1} \eTH\right]|\psiT}} 
-\end{align}
-Now we insert resolutions of the identity
-$\int\cdots\int\left[\prod_{j=0}^{P-1}\dif q^{(j)}\ket{q^{(j)}}\bra{q^{(j)}}\right]$ or
-$\int \dif q\ket{q}\bra{q}$
-
-\begin{align}
-	\braket{\hat{Q}} 
-		&=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
-                \braket{\psiT|q^{(0)}}
-				\left[\prod_{j=0}^{M-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
-				\braket{q^{(M-1)}|\eTH\hat{Q}|q^{(M)}}
-				\left[\prod_{j=M}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
-                \braket{q^{P-1}|\psiT}
-				}
-			   {\braket{\psiT|\eBH|\psiT}}
-	\\  &=\frac{\int\cdots\int\left[\prod_{j=0}^{P-1}dq^{(j)}\right]
-                \braket{\psiT|q^{(0)}}
-				\left[\prod_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
-				\braket{q^{(P-1)}|\psiT}
-				}
-			   {\braket{\psiT|\eBH|\psiT}}A(q_{M})
-\end{align}
-Say something about $\braket{\psiT|q} =$ the inner product, for the ground state $\braket{\psi_{0}|q} = \braket{0|q} = 1$
-
-
-
-
-\subsection{Theoretical background}
-\begin{description}
-    \item[Hamiltonian] \hfill \\
-    We are interested in the excited state energies of a molecular system. 
-    Clearly we will encounter the Hamiltonian $\hat{H} = \hat{K} + \hat{V}$ because it is the operator corresponding to the total energy of the system.
-    The Hamiltonian generates the evolution of quantum states over time. 
-    We will restrict our investigation to one dimension. 
-    For a system of $N$ particles, where $\hat{V}$ is the potential energy operator that describes the interactions between 
-    all particles of the system, $m_{i}$ is the mass for particle $i$ and $\hat{p}_{i}$ is the momentum operator, the Hamiltonian is:
-    \begin{equation}
-        \hat{H} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V}
-    \end{equation}
-
-    But the Hamiltonian in classical mechanics is derived from a Lagrangian. 
-    The Hamiltonian tells you how to march forward in time, but the time is different in different reference frames. 
-    So the Hamiltonian is different in different frames, and this type of symmetry is not apparent in the original formulation of quantum mechanics.
-    The Hamiltonian is a function of the position and momentum at one time, and it tells you the position and momentum a little later. 
-    The Lagrangian is a function of the position now and the position a little later (or, equivalently for infinitesimal time separations, it is a function of the position and velocity). 
-
-
-
-    \item[Time dependent Schrodinger] \hfill \\
-    The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. General time-dependent schrodinger equation:
-    \begin{equation}
-        \hat{H}\Psi = i\hbar\dpd{}{t}\Psi
-    \end{equation}
-
-
-    Knowing the ground state energy of the particles in our system, how do we obtain the excited state energies? 
-    Using the time[in]dependent Schrodinger equation of course! 
-    Given a state $\ket{\Psi(t)}$ at some initial time (t = 0), we can solve it to obtain the state at any subsequent time.
-    \begin{equation}
-        \hat{H}\ket{\psi(t)} = i\hbar\dpd{}{t}\ket{\psi(0)}  
-    \end{equation}
-    For a single non-relativistic particle:
-    \begin{equation}
-        i\hbar\dpd{}{t}\Psi(\vec{r},t) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r},t)\right]\Psi(\vec{r},t)
-    \end{equation}
-
-    \item[Time independent Schrodinger] \hfill \\
-    The Schrodinger equation describes the (determinisitic) evolution of the wave function of a particle.
-    It predicts what the probability distributions are, but fundamentally cannot predict the exact result of each measurement.
-    The time-independent(of the Hamiltonian) Schrodinger equation describes stationary states.
-    General equation:
-    \begin{equation}
-        \hat{H}\Psi = E\Psi
-    \end{equation}
-
-    Given a state $\ket{\Psi(t)}$ at some initial time (t = 0) (if H is independent of time):
-    \begin{equation}
-        \ket{\psi(t)} = \emiHt\ket{\psi(0)}
-    \end{equation}
-    By the homomorphism property of the functional calculus, the operator $U = \emiHt$ is a unitary operator.
-    It is the time evolution operator, or propagator, of a closed quantum system. 
-    In general:
-    \begin{equation}
-        E_{n}\psi_{n} = \hat{H}_{n}\psi_{n}
-    \end{equation}
-    For a single non-relativistic particle:
-    \begin{equation}
-        E\Psi(\vec{r}) = \left[\frac{-\hbar^{2}}{2\mu}\nabla^{2} + V(\vec{r})\right]\Psi(\vec{r})
-    \end{equation}
-
-    \item[Path integral formulation] \hfill \\
-    A description of quantum theory which generalizes the action principle of classical mechanics.
-    The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to computer a quantum amplitude.
-    It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system.    
-\end{description} 
-
-\section{Proposal}
-\begin{enumerate}
-    \item Use PIGS to get $\ket{0}$
-    Considering only the potentials that depend on position we can write the general Hamiltonian as:
-    \begin{equation}
-        \hat{H} = \hat{K} + \hat{V} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
-    \end{equation}
-    We are interested in finding the expectation value of the energy operator in the ground state. 
-    This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
-    We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
-    The LePIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
-    We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.\\
-
-
-    \item Use HK $\&$ to get dynamics $\eiHt$ \\
-    SC-IVR methods are capable of describing essentially all quantum effects that are based on the phase information of the wave function.
-    We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-GutzWiller for a number of reasons:
-    \begin{enumerate}
-        \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions.
-        \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space.
-        \item Additionally in the $\lim_{\gamma \to \infty}$ limit HK-IVR reduces to the co-ordinate space Van Vleck-IVR [cite]. 
-    \end{enumerate}
-    The HK propagator:
-    \begin{equation}
-        HK(t) = \frac{1}{2\hbar\pi}\int\!\int \!\dif p\,\!\dif q\, 
-        \ket{p(t), q(t)}\bra{p,q} R(p(t),q(t))
-        \exp{\left(\frac{iS(p(t),q(t))}{\hbar}\right)}
-    \end{equation}
-
-    The initial value representation (IVR) is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
-    The purpose of SC in the time domain is to find an appropriate description of the quantum propagator $\emiHt$ 
-    in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$. \\
-    It does this by propogating clasical trajectories uniquely defined by their initial conditions.
-\end{enumerate}
 
 
 \section{Preliminary Results}
 
 \subsection*{Harmonic Oscillator}
 The primary test case being investigated is a single electron in a one dimensional harmonic oscillator. 
-The Hamiltonian of our electron, with $m = \num{0.000548579909}$ (units?): 
+The Hamiltonian of our electron, where $m = \num{0.000548579909}$u (units?): 
 \begin{align}
-    \hat{H} &= \hat{V}(x) + \hat{K}(x) \\
+    \hat{H} &= \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V} \\
+    \hat{H} &= \hat{K}(x) + \hat{V}(x) \\
             &= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
 \end{align}
-We will simulate a one dimensional harmonic oscillator by averaging the results from a PIGS simulation preformed in three dimensions. 
-The estimator used to find the energy will be:
-\begin{equation}
-    \Braket{E} = \frac{\Braket{\psiT|\eBH\hat{H}|\psiT}}{\Braket{\psiT|\eBH|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|\eBH|\psiT}
-\end{equation}
-Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
-\\ \\
-The secondary test case will be an electron in a on dimensional double well. Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
-
+We will simulate a one dimensional harmonic oscillator using the mean values of a LePIGS simulation preformed in three dimensions. 
+Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
+A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\ \\
+The secondary test case will be an electron in a on dimensional double well. 
+Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
 \begin{enumerate}
     \item Initial issues
     \item Tried to use different estimator
