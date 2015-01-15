@@ -114,7 +114,7 @@ A description of quantum theory which generalizes the action principle of classi
 The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to computer a quantum amplitude.
 It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system. 
 
-
+SC-IVR has been shown to provide accurate ZPE, and it can directly be extended to the extraction of excited state energies by simply modifing the initial wave function and increasing the correlation time. We use PIGS to modify the initial wave function, without increasing computational time. Meaning SC-IVR is capable of describing essentially all quantum effects that are based on the phase space information of the wave function.
 \section{Proposal}
 \subsection{Use PIGS to get $\ket{0}$}
 ed in finding the expectation value of the energy operator in the ground state. 
@@ -231,9 +231,7 @@ The secondary test case will be an electron in a on dimensional double well.
 Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
-\begin{enumerate}
-    \item Filinov Filtering
-\end{enumerate}
+One Major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To addres this problem we are investigating the use of Filinov filtering.
 
 
 \section{Acknowledgements}
