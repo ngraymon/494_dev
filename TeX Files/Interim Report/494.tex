@@ -61,13 +61,15 @@ ground state (PIGS) technique to obtain accurate excited state energies~\cite{is
 \subsection{Hamiltonian}
 We are interested in the excited state energies of a molecular system.
 Clearly we will encounter the Hamiltonian $\hat{H}$ because it is the operator corresponding to the total energy of the system.
-We will restrict our investigation to one dimension. 
+We will restrict our investigation to one dimension, although our approach is general and our code will be applicable
+to an arbitrary number of degrees of freedom (d.o.f.).
 For a system of $N$ particles, where $\hat{V}$ is the potential energy operator that describes the interactions between 
 all particles of the system, $m_{i}$ is the mass for particle $i$, and $\hat{p}_{i}$ is the momentum operator, the Hamiltonian is:
 \begin{align}
     \hat{H} &= \hat{K} + \hat{V}
     \\      &= \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V}
 \end{align}
+
 
 \subsection{Time-dependent Schrodinger}
 The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. 
@@ -76,12 +78,14 @@ The general time-dependent Schrodinger equation is as follows:
 \begin{equation}
     \hat{H}\ket{\psi} = i\hbar\frac{d}{dt}\ket{\psi}
 \end{equation}
-Knowing the ground state energy of the particles in our system, we obtain the excited state energies.
+Knowing the ground state energy of the particles in our system, we obtain the excited state energies via the correlation function.
 Using the time dependent Schrodinger equation.
-Given a state $\ket{\psi(t)}$ at some initial time (t = 0), we can solve it to obtain the state at any subsequent time.
+Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $H$ being independent of time:
 \begin{equation}
-    \hat{H}\ket{\psi(t)} = i\hbar\dpd{}{t}\ket{\psi(t)}  
+    \ket{\psi(t)} = \emiHt\ket{\psi(0)}
 \end{equation}
+We call $\emiHt$ the real-time propagator.
+
 
 \subsection{Time-independent Schrodinger}
 The Schrodinger equation describes the (determinisitic) evolution of the wave function of a particle.
@@ -91,17 +95,13 @@ The general form:
 \begin{equation}
     \hat{H}\ket{\psi_{n}} = E_{n}\ket{\psi_{n}}
 \end{equation}
-Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $H$ being independent of time:
-\begin{equation}
-    \ket{\psi(t)} = \emiHt\ket{\psi(0)}
-\end{equation}
-We call $\emiHt$ the real-time propagator.
 
 
 \subsection{Path integral formulation}
 A path integral formulation is a description of quantum theory which generalizes the action principle of classical mechanics.
 The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to compute a quantum amplitude.
 It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system. 
+The determinat?
 
 
 \subsection{Semiclassical initial value representation}
