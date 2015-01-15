@@ -118,7 +118,7 @@ The physical significance of the HK propagator is that for a system in the semic
 
 
 \section{Proposal}
-\subsection{Use PIGS to get $\ket{0}$}
+\subsection{Obtaining $\ket{0}$ using PIGS}
 We are interested in finding the expectation value of the energy operator in the ground state. 
 This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
 We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat to improve the efficiency of our sampling [cite].
@@ -126,6 +126,7 @@ Using LePIGS, we sample from a classical distribution which is in some appropria
 using discretized path integrals. 
 We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.
 The ground state pseudo-partition function can be expressed in the discretized form as:
+\newcommand{\bead}[1]{^{(#1)}}
 \begin{align*}
     Z_{\beta,\tau}
     &\propto \idotsint \left[ \prod_{j=0}^{P-1} \dif q\bead{j} \right]
@@ -137,7 +138,7 @@ The ground state pseudo-partition function can be expressed in the discretized f
 The LePIGS will be preformed in one-dimension, and the dimensional quantities will be used as initial conditions for the SC-IVR method.
 
 
-\subsection{Use HK $\&$ SC-IVR to get dynamics $\emiHt$} 
+\subsection{Using SC-IVR $\&$ HK propagator to obtain dynamics $\emiHt$} 
 The properties of interest are the excited state energies of some molecular system. 
 Path integral molecular dynamics allows us to simulate a molecular system. 
 Given this simulated system how will we obtain the properties of interest?
@@ -238,6 +239,7 @@ Here we used a different estimator:
 \end{equation}
 A choice was made to set the fictious momentum to zero as an initial condition. This was made because [sampling from entired space?].
 
+\subsection*{Double Well}
 The secondary test case will be an electron in a one dimensional double well. 
 Some consideration is required in regards to tunneling effects. 
 This is because SC-IVR has trouble describing coherent barrier tunneling.
