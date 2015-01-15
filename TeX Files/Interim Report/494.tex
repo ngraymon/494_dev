@@ -117,22 +117,12 @@ It is manifestly symmetric between time and space, and allows a scientist to eas
 
 \section{Proposal}
 \subsection{Use PIGS to get $\ket{0}$}
-Considering only the potentials that depend on position we can write the general Hamiltonian as:
-\begin{equation}
-    \hat{H} = \hat{K} + \hat{V} = \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + V(\vec{q})
-\end{equation}
-We are interested in finding the expectation value of the energy operator in the ground state. 
+ed in finding the expectation value of the energy operator in the ground state. 
 This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
 We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat which improves the efficiency of our sampling [cite].
 Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
 using discretized path integrals. 
 We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.
-The ground state pseudo-partition function can be expressed in the discretized form as:
-\begin{equation}
-    a
-\end{equation}
-The LePIGS will be preformed in one dimension and the dimensional quantities will be used as initial conditions for the SC-IVR method.
-
 
 \subsection{Use HK $\&$ SC-IVR to get dynamics $\emiHt$} 
 The properties of interest are the excited state energies of some molecular system. 
@@ -224,14 +214,21 @@ The Hamiltonian of our electron, where $m = \num{0.000548579909}$u (units?):
 \end{align}
 We will simulate a one dimensional harmonic oscillator using the mean values of a LePIGS simulation preformed in three dimensions. 
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\ \\
-The secondary test case will be an electron in a on dimensional double well. 
-Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
+A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\
+Here we can see that our initial estimator has some issues:\\
+\includegraphics[width=1.0\linewidth]{betaplot.png}
+In this graph the line represents the analytically detemined value.
+The line plotted represents many different simulations at $t=0$ with increase $\beta$ and constant $tau$.\\
+Some of our latest results for the correlation function:\\
+\includegraphics[width=1.0\linewidth]{P=1025_1000classicalsteps.pdf}
 \begin{enumerate}
     \item Initial issues
     \item Tried to use different estimator
     \item Set momentum to zero
 \end{enumerate}
+
+The secondary test case will be an electron in a on dimensional double well. 
+Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
 \begin{enumerate}
