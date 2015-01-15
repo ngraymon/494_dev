@@ -125,6 +125,15 @@ We will use a technique know as the Path Integral Langevin Equation (PILE) therm
 Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
 using discretized path integrals. 
 We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.
+The ground state pseudo-partition function can be expressed in the discretized form as:
+\begin{align*}
+    Z_{\beta,\tau}
+    &\propto \idotsint \left[ \prod_{j=0}^{P-1} \dif q\bead{j} \right]
+            \cdots \ket{q\bead{M-1}}
+            \braket{q\bead{M-1} | e^{-\tau \hat{H}} | q\bead{M}}
+            \braket{q\bead{M} | e^{-\tau \hat{H}} | q\bead{M+1}}
+            \bra{q\bead{M+1}} \cdots,
+\end{align*}
 The LePIGS will be preformed in one-dimension, and the dimensional quantities will be used as initial conditions for the SC-IVR method.
 
 
@@ -199,6 +208,9 @@ For $t=0$
 \end{enumerate}
 
 
+So we have an equation describing the estimator $Q$ and we can simulate a molecular system using PIGS. We have developed code in python that implements the proposed theory. The code uses the MMTK library to run PIGS simulations which are used as the initial conditions for the SC method. In the next section we display some early results of this newly developed code.
+
+
 \section{Preliminary Results}
 
 \subsection*{Harmonic Oscillator}
@@ -214,18 +226,21 @@ Where $\psiT$ is the approximation to the exact ground state wavefunciton.
 A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\ \\
 Here we can see that our initial estimator has some issues:\\
 \includegraphics[width=1.0\linewidth]{betaplot.png}
-In this graph the line represents the analytically detemined value.
-The line plotted represents many different simulations at $t=0$ with increase $\beta$ and constant $tau$.\\
-Some of our latest results for the correlation function:\\
+In this graph the black horizontal line represents the analytically determined value.
+Each point plotted on the graph represents a distinct simulation at $t=0$ with increasing $\beta$ and constant $\tau$.\\
+Our initial estimator converged, but not to the analytically determined value as we had hoped! 
+One goal of future work is to find a "scaling factor" such that the estimator converges to the expected value.
+Some of our more recent results for the correlation function:\\
 \includegraphics[width=1.0\linewidth]{P=1025_1000classicalsteps.pdf}
-\begin{enumerate}
-    \item Initial issues
-    \item Tried to use different estimator
-    \item Set momentum to zero
-\end{enumerate}
+Here we used a different estimator:
+\begin{equation}
+    A = 
+\end{equation}
+A choice was made to set the fictious momentum to zero as an initial condition. This was made because [sampling from entired space?].
 
-The secondary test case will be an electron in a on dimensional double well. 
-Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
+The secondary test case will be an electron in a one dimensional double well. 
+Some consideration is required in regards to tunneling effects. 
+This is because SC-IVR has trouble describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
 One Major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To addres this problem we are investigating the use of Filinov filtering.
