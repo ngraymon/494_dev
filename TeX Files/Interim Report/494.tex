@@ -20,8 +20,8 @@
 \newcommand{\eTH}{e^{-\tau\hat{H}}}
 \newcommand{\emiHt}{e^{\frac{-i\hat{H}t}{\hbar}}}
 \newcommand{\eiHt}{e^{\frac{i\hat{H}t}{\hbar}}}
-
 \newcommand{\expb}[1]{\ensuremath{\exp{\left[ #1 \right]}}}
+
 \renewcommand{\vec}[1]{\mathbf{#1}}
 \DeclareMathOperator{\Tr}{Tr}
 
@@ -189,14 +189,20 @@ $\int \dif q\ket{q}\bra{q}$
                 \left[\prod\limits_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
                 \braket{q^{(P-1)}|\psiT}
                 }
-    \\  &=\frac{\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
+\end{align}
+Which is equivalent to the following integral:
+\begin{equation}
+\braket{\hat{Q}} 
+                =\frac{\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
                 p(q)
                 \,\,\,\,Q(q^{(M)})
                 }
                {\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
                 p(q)
-                }
-\end{align}
+                } 
+\end{equation}           
+An integral which we can evaluate by stochastically sampling the distribution from our PIGS simulation.
+
 
 \subsection{Implementing SC-IVR code to obtain dynamics $\emiHt$} 
 The properties of interest are the excited state energies of some molecular system. 
@@ -283,7 +289,7 @@ We will simulate a one-dimensional harmonic oscillator using the mean values of 
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
 A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\ \\
 Here we can see that our initial estimator has some issues:\\
-\includegraphics[width=1.0\linewidth]{betaplot.png}
+\includegraphics[width=1.0\linewidth]{betaplot_fixed.png}
 In this graph the black horizontal line represents the analytically determined value.
 Each point plotted on the graph represents a distinct simulation at $t=0$ with increasing $\beta$ and constant $\tau$.\\
 Our initial estimator converged, but not to the analytically determined value as we had hoped! 
@@ -291,12 +297,17 @@ One goal of future work is to find a "scaling factor" such that the estimator co
 Some of our more recent results for the correlation function:\\
 \includegraphics[width=1.0\linewidth]{P=1025_1000classicalsteps.pdf}
 This graph compares and contrasts the real and imaginary parts of our correlation function over two periods. 
-Again the expected value was $440$.
+Again the expected value was $\approx 442.13~\textrm{nm}^2$
 Here we used a different estimator:
-\begin{equation}
-    A = 
-\end{equation}
-
+\newcommand{\bead}[1]{^{(#1)}}
+\newcommand{\kB}{k_\textrm{B}}
+\begin{align*}
+    O(p\bead{M}, q\bead{M-1}, q\bead{M}, q\bead{M+1}, t) 
+        &= q\bead{M-1} q\bead{M+1}
+        \times\expb{\frac{ip\bead{M}(q\bead{M-1} - q\bead{M}(t))}{\hbar}} 
+        \times\expb{\frac{iS_{p,q}(t)}{\hbar}}
+    \\  &\times\expb{\frac{-m\kB}{2\hbar^{2}\tau} \times(q\bead{M-1} - q\bead{M}(t))^{2} - (q\bead{M-1} - q\bead{M}(0))^{2}}
+\end{align*} 
 
 \subsection*{Double Well}
 The secondary test case will be an electron in a one dimensional double well. 
