@@ -1,6 +1,6 @@
 \pdfobjcompresslevel=0
 \documentclass[12pt,letterpaper,oneside,final,titlepage]{article}               % define the basic details of our document
-\usepackage{amsmath, commath, pgfplots, datetime, color, nicefrac}                         % get the packages we depend on
+\usepackage{amsmath, amssymb, commath, pgfplots, datetime, color, nicefrac}                         % get the packages we depend on
 \usepackage{fullpage}                                                   % increases the dimensions of the page
 \usepackage{setspace}                                                   % this package double spaces our document for editing
 \usepackage[scientific-notation=true]{siunitx}
@@ -39,7 +39,7 @@
 \subsection*{Abstract}
 A path integral ground state method is used to calculate inital conditions of a semiclassical initial value representation approach for molecular systems. 
 It is hypothesised that this approach will yield accurate energy spectra from which excited state energies can be obtained. 
-This is the first time that a semiclassical coherent state basis has been combined with a path integral ground state cartesian coordinate basis. It is very likely there will be unforseen dfficulties.
+This is the first time that a semiclassical coherent state basis has been combined with a path integral ground state cartesian coordinate basis. It is very likely there will be unforseen difficulties.
 
 \section{Introduction}
 
@@ -72,25 +72,25 @@ all particles of the system, $m_{i}$ is the mass for particle $i$, and $\hat{p}_
 \end{align}
 
 
-\subsection{Time-dependent Schrodinger}
+\subsection{Time-dependent Schrodinger Equation}
 The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. 
 The Hamiltonian generates the evolution of quantum states over time. 
 The general time-dependent Schrodinger equation is as follows:
 \begin{equation}
     \hat{H}\ket{\psi} = i\hbar\frac{d}{dt}\ket{\psi}
 \end{equation}
-Knowing the ground state energy of the particles in our system, we obtain the excited state energies via the correlation function.
+Knowing the ground state energy of the particles in our system, we obtain the excited state energies via a correlation function.
 Using the time dependent Schrodinger equation.
-Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $H$ being independent of time:
+Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $\hat{H}$ being dependent on time:
 \begin{equation}
     \ket{\psi(t)} = \emiHt\ket{\psi(0)}
 \end{equation}
 We call $\emiHt$ the real-time propagator.
 
 
-\subsection{Time-independent Schrodinger}
-The Schrodinger equation describes the (determinisitic) evolution of the wave function of a particle.
-It predicts the probability distributions, but cannot predict the exact result of each measurement.
+\subsection{Time-independent Schrodinger Equation}
+The time-independent Schrodinger equation describes the stationary(energy) states of a system. 
+describes the (determinisitic) evolution of the wave function of a particle.
 The time-independent Schrodinger equation describes stationary states. \\
 The general form:
 \begin{equation}
@@ -102,7 +102,7 @@ The general form:
 A path integral formulation is a description of quantum theory which generalizes the action principle of classical mechanics.
 The classical trajectory is replaced with a functional integral over an infinity of possible trajectories to compute a quantum amplitude.
 It is manifestly symmetric between time and space, and allows a scientist to easily change coordinates between very different canonical descriptions of the same quantum system. 
-The determinat?
+
 
 
 \subsection{Semiclassical initial value representation}
@@ -125,21 +125,80 @@ This is equivalent to finding expectation values of functions with respect to th
 We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat to improve the efficiency of our sampling~\cite{constable2013langevin}.
 Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
 using discretized path integrals. 
-We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations~\cite{hinsen2000molecular}.
+We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, as a baseline upon which we will further develop our code~\cite{hinsen2000molecular}. 
 The ground state pseudo-partition function can be expressed in the discretized form as:
-\newcommand{\bead}[1]{^{(#1)}}
 \begin{align*}
     Z_{\beta,\tau}
-    &\propto \idotsint \left[ \prod_{j=0}^{P-1} \dif q\bead{j} \right]
-            \cdots \ket{q\bead{M-1}}
-            \braket{q\bead{M-1} | e^{-\tau \hat{H}} | q\bead{M}}
-            \braket{q\bead{M} | e^{-\tau \hat{H}} | q\bead{M+1}}
-            \bra{q\bead{M+1}} \cdots,
+    &\propto \idotsint  \left[ \prod_{j=0}^{P-1} \dif q^{j}                      \right]
+                        \braket{\psiT|q^{(0)}}
+                        \left[ \prod_{j=0}^{P-2} \braket{q^{(j)}|\eTH|q^{(j+1)}} \right]
+                        \braket{q^{(P-1)}|\psiT}
 \end{align*}
-The LePIGS will be preformed in one-dimension, and the dimensional quantities will be used as initial conditions for the SC-IVR method.
+\begin{figure}[h]
+    \includegraphics[width=1.0\linewidth]{single_path.pdf}
+    \caption{Conceptual image of a path}
+\end{figure} \\
+How do we find the exprecation value of functions with respect to the path integral distributions? 
+Let be $\hat{Q}$ be an operator for a property of interest. \\
+The expectation value $\braket{\hat{Q}}$ can be represented quantum mechanically:
+\begin{equation}
+    \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}}
+\end{equation}
+We make an approximation for some finite $\beta$ that the exact ground state wavefunction $\ket{0} \approx \ket{0}_{\beta}$.
+This is useful because the equality $\ket{0}_{\beta} = \eBHf\ket{\psiT}$ allows us to rexpress $\braket{\hat{Q}}$ as
+\begin{equation}
+    \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} \approx \frac{\braket{\psiT|\eBHf\hat{Q}\eBHf|\psiT}} {\braket{\psiT|\eBH|\psiT}} 
+\end{equation}
+Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
+A uniform trial function $\braket{q|\psiT} = 1 \forall q \in \mathbb{R} $ was used due to simplicity of implementation. \\
+Let $\beta = (P-1)\tau$ and $M = \frac{(P-1)}{2}$ then we can reexpress $\braket{\hat{Q}}$ using the equality $\eBH = \prod_{j=0}^{P-1} \eTH$
+\begin{align*}
+    \braket{\hat{Q}} = \frac{\braket{\psiT|
+                            \left[\prod_{j=0}^{M-1} \eTH\right]
+                            \hat{Q}
+                            \left[\prod_{j=M}^{P-1} \eTH\right]
+                            |\psiT}}
+                            {\braket{\psiT|\left[\prod_{j=0}^{P-1} \eTH\right]|\psiT}} 
+\end{align*}
+Now we insert resolutions of the identity
+$\int\cdots\int\left[\prod_{j=0}^{P-1}\dif q^{(j)}\ket{q^{(j)}}\bra{q^{(j)}}\right]$ or
+$\int \dif q\ket{q}\bra{q}$
 
+\begin{align}
+    \braket{\hat{Q}} 
+        &=\frac{\int\cdots\int\left[\prod\limits_{j=0}^{P-1}dq^{(j)}\right]
+                \braket{\psiT|q^{(0)}}
+                \left[\prod\limits_{j=0}^{M-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{(M-1)}|\eTH\hat{Q}|q^{(M)}}
+                \left[\prod\limits_{j=M}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{P-1}|\psiT}
+                }
+               {\int\cdots\int\left[\prod\limits_{j=0}^{P-1}dq^{(j)}\right]
+                \braket{\psiT|q^{(0)}}
+                \left[\prod\limits_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{(P-1)}|\psiT}
+                }
+    \\  &=\frac{\int\cdots\int\left[\prod\limits_{j=0}^{P-1}dq^{(j)}\right]
+                \braket{\psiT|q^{(0)}}
+                \left[\prod\limits_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{(P-1)}|\psiT}
+                \,\,\,\,Q(q^{(M)})
+                }
+               {\int\cdots\int\left[\prod\limits_{j=0}^{P-1}dq^{(j)}\right]
+                \braket{\psiT|q^{(0)}}
+                \left[\prod\limits_{j=0}^{P-2}\braket{q^{(j)}|\eTH|q^{(j+1)}}\right]
+                \braket{q^{(P-1)}|\psiT}
+                }
+    \\  &=\frac{\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
+                p(q)
+                \,\,\,\,Q(q^{(M)})
+                }
+               {\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
+                p(q)
+                }
+\end{align}
 
-\subsection{Using SC-IVR $\&$ HK propagator to obtain dynamics $\emiHt$} 
+\subsection{Implementing SC-IVR code to obtain dynamics $\emiHt$} 
 The properties of interest are the excited state energies of some molecular system. 
 Path integral molecular dynamics allows us to simulate a molecular system. 
 Given this simulated system how will we obtain the properties of interest?
@@ -155,8 +214,7 @@ We can express correlation functions in general as follows:
 Where $\eBH$ is the thermal density operator, $Z = \Tr(\eBH)$ is the canonical partition function 
 and $\eiHt\hat{A}\emiHt=\hat{A}(t)$ is the Heisenberg representation of the operator $\hat{A}$.
 
-We are interested in the [not sure of the name?] correlation function so our correlation function is $\braket{\hat{q}(t)\hat{q}}$. 
-If we expand:
+We are interested in the position autocorrelation function $\braket{\hat{q}(t)\hat{q}}$. 
 \begin{align}
     C(t) &= \braket{\hat{q}(t)\hat{q}}
     \\   &= \braket{0|\hat{q}(t)\hat{q}|0}
@@ -239,7 +297,6 @@ Here we used a different estimator:
     A = 
 \end{equation}
 
-A choice was made to set the fictious momentum to zero as an initial condition. This was made because [sampling from entired space?].
 
 \subsection*{Double Well}
 The secondary test case will be an electron in a one dimensional double well. 
@@ -248,8 +305,10 @@ This is because SC-IVR has trouble describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
 One major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To address this future challenge we are investigating the use of Filinov filtering.
-
-\newpage
+Initially we chose to use our fictious momentum as momentum, but his did not seem to work well.
+A choice was made to set the fictious momentum to zero as an initial condition. 
+Since the momentum is symmetric about zero and is approximately zero this should be a reasonable choice.
+In the future we will investigate the momentum's choice and effect on the results further.
 
 \section{Acknowledgements}
 My thanks to Dmitri Iouchtchenko who edited, and contributed significant effort to the mathematical equations presented in this paper. 
