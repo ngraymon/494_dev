@@ -39,20 +39,21 @@
 \subsection*{Abstract}
 A path integral ground state method is used to calculate inital conditions of a semiclassical initial value representation approach for molecular systems. 
 It is hypothesised that this approach will yield accurate energy spectra from which excited state energies can be obtained. 
+This is the first time that a semiclassical coherent state basis has been combined with a path integral ground state cartesian coordinate basis. It is very likely there will be unforseen dfficulties.
 
 \section{Introduction}
 
 \subsection{Prelude}
 Accurate and efficient measurement of molecular properties, such as energy states, is an area of active research in theoretical chemistry. 
-The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner[cite]. 
+The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner~\cite{goodfellow1990molecular}. 
 There are many different methods for calculating these values. 
 We propose a combination of a path integral ground state method and a semiclassical method. 
-Classical methods, such as molecular dynamics simulations, are regularly used in commercial environments[cite]. 
+Classical methods, such as molecular dynamics simulations, are regularly used in commercial applications~\cite{pasquarello1998interface}. 
 Such methods are only adequate when the properties of interest do not exhibit significant quantum effects. 
 Quantum mechanical analytical methods give exact results but are very slow or intractable for certain problems. 
 These are the key factors driving the interest in semiclassical methods; which are based on computationally efficient compuclassical trajectories, but also incorporate quantum effects. 
 Semiclassical methods can be both efficient and accurate for certain problems. \newline
-It has been shown that ground state energies, for molecular systems, can be calculated using a path integral ground state method with good accuracy and speed[cite]. 
+It has been shown that ground state energies, for molecular systems, can be calculated using a path integral ground state method with good accuracy and speeds~\cite{sarsa2000path}. 
 In the research we propose, we will combine a semiclassical initial value representation technique (SC-IVR) with a path integral 
 ground state (PIGS) technique to obtain accurate excited state energies~\cite{issack2007semiclassical}~\cite{schmidt2014inclusion}.
 
@@ -121,10 +122,10 @@ The physical significance of the HK propagator is that for a system in the semic
 \subsection{Obtaining $\ket{0}$ using PIGS}
 We are interested in finding the expectation value of the energy operator in the ground state. 
 This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
-We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat to improve the efficiency of our sampling [cite].
+We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat to improve the efficiency of our sampling~\cite{constable2013langevin}.
 Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
 using discretized path integrals. 
-We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations.
+We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, to run our simulations~\cite{hinsen2000molecular}.
 The ground state pseudo-partition function can be expressed in the discretized form as:
 \newcommand{\bead}[1]{^{(#1)}}
 \begin{align*}
@@ -182,8 +183,8 @@ To overcome this problem we approximate the real-time propagator.
 Two widely used approximations to the real-time propagator are the Herman-Kluck propagator and the Van Vleck-GutzWiller propagator.
 We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-GutzWiller primarily because:
 \begin{enumerate}
-    \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions [cite].
-    \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space [cite].
+    \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions~\cite{kay2006herman}.
+    \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space~\cite{kay2006herman}.
 \end{enumerate}
 The HK propagator:
 \begin{equation}\label{eq:HKprop}
@@ -216,11 +217,9 @@ So we have an equation describing the estimator $Q$ and we can simulate a molecu
 
 \subsection*{Harmonic Oscillator}
 The primary test case being investigated is a single electron in a one-dimensional harmonic oscillator. 
-The Hamiltonian of our electron, where $m = \num{0.000548579909}$u (units?): 
+The Hamiltonian of our electron, where $m = \num{0.000548579909}$u): 
 \begin{align}
-    \hat{H} &= \sum_{i=1}^{N}\frac{\hat{p}_{i}^2}{2m_{i}} + \hat{V} \\
-    \hat{H} &= \hat{K}(x) + \hat{V}(x) \\
-            &= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
+    \hat{H} = \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
 \end{align}
 We will simulate a one-dimensional harmonic oscillator using the mean values of a LePIGS simulation preformed in three dimensions. 
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
@@ -233,10 +232,13 @@ Our initial estimator converged, but not to the analytically determined value as
 One goal of future work is to find a "scaling factor" such that the estimator converges to the expected value.
 Some of our more recent results for the correlation function:\\
 \includegraphics[width=1.0\linewidth]{P=1025_1000classicalsteps.pdf}
+This graph compares and contrasts the real and imaginary parts of our correlation function over two periods. 
+Again the expected value was $440$.
 Here we used a different estimator:
 \begin{equation}
     A = 
 \end{equation}
+
 A choice was made to set the fictious momentum to zero as an initial condition. This was made because [sampling from entired space?].
 
 \subsection*{Double Well}
@@ -245,7 +247,7 @@ Some consideration is required in regards to tunneling effects.
 This is because SC-IVR has trouble describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
-One Major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To addres this problem we are investigating the use of Filinov filtering.
+One major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To address this future challenge we are investigating the use of Filinov filtering.
 
 \newpage
 
