@@ -39,7 +39,7 @@
 \subsection*{Abstract}
 A path integral ground state method is used to calculate inital conditions of a semiclassical initial value representation approach for molecular systems. 
 It is hypothesised that this approach will yield accurate energy spectra from which excited state energies can be obtained. 
-This is the first time that a semiclassical coherent state basis has been combined with a path integral ground state cartesian coordinate basis. It is very likely there will be unforseen difficulties.
+This is the first time that a semiclassical coherent state basis has been combined with a path integral ground state Cartesian coordinate basis. It is very likely there will be unforseen difficulties.
 
 \section{Introduction}
 
@@ -51,7 +51,7 @@ We propose a combination of a path integral ground state method and a semiclassi
 Classical methods, such as molecular dynamics simulations, are regularly used in commercial applications~\cite{pasquarello1998interface}. 
 Such methods are only adequate when the properties of interest do not exhibit significant quantum effects. 
 Quantum mechanical analytical methods give exact results but are very slow or intractable for certain problems. 
-These are the key factors driving the interest in semiclassical methods; which are based on computationally efficient compuclassical trajectories, but also incorporate quantum effects. 
+These are the key factors driving the interest in semiclassical methods, which are based on computationally efficient compuclassical trajectories, but also incorporate quantum effects. 
 Semiclassical methods can be both efficient and accurate for certain problems. \newline
 It has been shown that ground state energies, for molecular systems, can be calculated using a path integral ground state method with good accuracy and speeds~\cite{sarsa2000path}. 
 In the research we propose, we will combine a semiclassical initial value representation technique (SC-IVR) with a path integral 
@@ -72,7 +72,7 @@ all particles of the system, $m_{i}$ is the mass for particle $i$, and $\hat{p}_
 \end{align}
 
 
-\subsection{Time-dependent Schrodinger Equation}
+\subsection{Schrodinger Equation}
 The Schrodinger equation is a partial differential equation that describes how the quantum state of a physical system changes with time. 
 The Hamiltonian generates the evolution of quantum states over time. 
 The general time-dependent Schrodinger equation is as follows:
@@ -80,18 +80,13 @@ The general time-dependent Schrodinger equation is as follows:
     \hat{H}\ket{\psi} = i\hbar\frac{d}{dt}\ket{\psi}
 \end{equation}
 Knowing the ground state energy of the particles in our system, we obtain the excited state energies via a correlation function.
-Using the time dependent Schrodinger equation.
-Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $\hat{H}$ being dependent on time:
+Given a state $\ket{\psi(t)}$ at some initial time (t = 0) and $\hat{H}$ being independent of time:
 \begin{equation}
     \ket{\psi(t)} = \emiHt\ket{\psi(0)}
 \end{equation}
 We call $\emiHt$ the real-time propagator.
 
-
-\subsection{Time-independent Schrodinger Equation}
 The time-independent Schrodinger equation describes the stationary(energy) states of a system. 
-describes the (determinisitic) evolution of the wave function of a particle.
-The time-independent Schrodinger equation describes stationary states. \\
 The general form:
 \begin{equation}
     \hat{H}\ket{\psi_{n}} = E_{n}\ket{\psi_{n}}
@@ -106,24 +101,26 @@ It is manifestly symmetric between time and space, and allows a scientist to eas
 
 
 \subsection{Semiclassical initial value representation}
-The purpose of the SC approach in the time domain is to find an approximate description of the quantum propagator $\emiHt$ 
-in terms of classical trajectories which is valid in the asymptotic limit $\lim_{\hbar \to 0}$.
+The purpose of the SC approach in the time domain is to find an approximate description of the quantum propagator $\emiHt$, 
+in terms of classical trajectories, which is valid in the asymptotic limit $\lim_{\hbar \to 0}$.
 It does this by propagating clasical trajectories uniquely defined by their initial conditions.
-SC-IVR has been shown to provide accurate ZPE, and it can directly be extended to the extraction of excited state energies by simply modifing the initial wave function and increasing the correlation time. 
+SC-IVR has been shown to provide accurate Zero Point Energy (ZPE), and it can directly be extended to the extraction of excited state energies by simply modifing the initial wave function and increasing the correlation time. 
 We use PIGS to modify the initial wave function, without increasing computational time. 
 Meaning SC-IVR is capable of describing essentially all quantum effects that are based on the phase space information of the wave function.
-The initial value representation (IVR) of the SC method is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. \\
+The initial value representation (IVR) of the SC method is used because it does not require solving the boundary-value problem (root search), a severe numerical challenge in a multidimensional system. 
+
 The physical significance of the HK propagator is that for a system in the semiclassical limit, where a typical action is large compared with $\hbar$ the major contribution to the propagator comes from classic trajectories satisfying the correct boundary conditions.
 
 
 
 
 \section{Proposal}
-\subsection{Obtaining $\ket{0}$ using PIGS}
-We are interested in finding the expectation value of the energy operator in the ground state. 
+\subsection{Obtaining ground state properties using PIGS}
+We are interested in finding the expectation value of certain properties, such as the energy operator, in the ground state. 
 This is equivalent to finding expectation values of functions with respect to the path integral distributions, which we can do by using PIGS simulations.
 We will use a technique know as the Path Integral Langevin Equation (PILE) thermostat to improve the efficiency of our sampling~\cite{constable2013langevin}.
-Using LePIGS, we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
+Using Langevin quation path integral ground state medtho (LePIGS), 
+we sample from a classical distribution which is in some appropriate sense isomorphic to a ground state quantum system approximately represented
 using discretized path integrals. 
 We will use the software package Molecular Modelling Toolkit (MMTK), which implements the LePIGS method, as a baseline upon which we will further develop our code~\cite{hinsen2000molecular}. 
 The ground state pseudo-partition function can be expressed in the discretized form as:
@@ -138,31 +135,30 @@ The ground state pseudo-partition function can be expressed in the discretized f
     \includegraphics[width=1.0\linewidth]{single_path.pdf}
     \caption{Conceptual image of a path}
 \end{figure} \\
-How do we find the exprecation value of functions with respect to the path integral distributions? 
+How do we find the expecation value of functions with respect to the path integral distributions? 
 Let be $\hat{Q}$ be an operator for a property of interest. \\
 The expectation value $\braket{\hat{Q}}$ can be represented quantum mechanically:
 \begin{equation}
     \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}}
 \end{equation}
 We make an approximation for some finite $\beta$ that the exact ground state wavefunction $\ket{0} \approx \ket{0}_{\beta}$.
-This is useful because the equality $\ket{0}_{\beta} = \eBHf\ket{\psiT}$ allows us to rexpress $\braket{\hat{Q}}$ as
+This is useful because the equality $\ket{0}_{\beta} = \eBHf\ket{\psiT}$ allows us to reexpress $\braket{\hat{Q}}$ as
 \begin{equation}
     \braket{\hat{Q}} = \frac{\braket{0|\hat{Q}|0}}{\braket{0|0}} \approx \frac{\braket{\psiT|\eBHf\hat{Q}\eBHf|\psiT}} {\braket{\psiT|\eBH|\psiT}} 
 \end{equation}
 Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-A uniform trial function $\braket{q|\psiT} = 1 \forall q \in \mathbb{R} $ was used due to simplicity of implementation. \\
-Let $\beta = (P-1)\tau$ and $M = \frac{(P-1)}{2}$ then we can reexpress $\braket{\hat{Q}}$ using the equality $\eBH = \prod_{j=0}^{P-1} \eTH$
+A uniform trial function $\braket{q|\psiT} = 1 \,\,\,\forall q \in \mathbb{R} $ was used due to simplicity of implementation. \\
+Let $\beta = (P-1)\tau$ and $M = \frac{(P-1)}{2}$ then we can reexpress $\braket{\hat{Q}}$ using the equality $\eBH = \prod_{j=0}^{P-2} \eTH$
 \begin{align*}
     \braket{\hat{Q}} = \frac{\braket{\psiT|
                             \left[\prod_{j=0}^{M-1} \eTH\right]
                             \hat{Q}
-                            \left[\prod_{j=M}^{P-1} \eTH\right]
+                            \left[\prod_{j=M}^{P-2} \eTH\right]
                             |\psiT}}
-                            {\braket{\psiT|\left[\prod_{j=0}^{P-1} \eTH\right]|\psiT}} 
+                            {\braket{\psiT|\left[\prod_{j=0}^{P-2} \eTH\right]|\psiT}} 
 \end{align*}
-Now we insert resolutions of the identity
-$\int\cdots\int\left[\prod_{j=0}^{P-1}\dif q^{(j)}\ket{q^{(j)}}\bra{q^{(j)}}\right]$ or
-$\int \dif q\ket{q}\bra{q}$
+Insert resolutions of the identity 
+$\int\cdots\int\left[\prod_{j=0}^{P-1}\dif q^{(j)}\ket{q^{(j)}}\bra{q^{(j)}}\right]$ and Trotter factorize
 
 \begin{align}
     \braket{\hat{Q}} 
@@ -190,18 +186,18 @@ $\int \dif q\ket{q}\bra{q}$
                 \braket{q^{(P-1)}|\psiT}
                 }
 \end{align}
-Which is equivalent to the following integral:
+Which is equivalent to the following integral for a chosen $f(q)$:
 \begin{equation}
 \braket{\hat{Q}} 
                 =\frac{\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
-                p(q)
+                f(q)
                 \,\,\,\,Q(q^{(M)})
                 }
                {\int\cdots\int\left[\prod_{j}dq^{(j)}\right]
-                p(q)
+                f(q)
                 } 
 \end{equation}           
-An integral which we can evaluate by stochastically sampling the distribution from our PIGS simulation.
+An ratio of integrals which we can evaluate by stochastically sampling the distribution from our PIGS simulation.
 
 
 \subsection{Implementing SC-IVR code to obtain dynamics $\emiHt$} 
@@ -211,7 +207,7 @@ Given this simulated system how will we obtain the properties of interest?
 Correlation functions are versatile functions that can be used to probe dynamical systems.
 Correlation functions have the useful property of producing an intensity spectrum after Fourier transformation.
 Thus, we can construct a correlation function such that the Fourier transform produces a spectrum, where the peaks
-represent the $\delta E_{n}$ between energy levels.
+represent the $\Delta E_{n}$ between energy levels.
 If we know the ground state energy of a molecular system and we know this correlation function, then we should be able to obtain the properties of interest. \\ \\
 We can express correlation functions in general as follows:
 \begin{equation}
@@ -241,11 +237,10 @@ $\int\int \dif q_{A}\dif q_{B} \ket{q_{A}}\bra{q_{A}}\ket{q_{B}}\bra{q_{B}}$
     q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|\emiHt|q_{B}}\braket{q_{B}|0}
     \label{eq:cor_ins}
 \end{align}
-
 The real-time propagator $\emiHt$ is troublesome because $\emiHt\ket{q_{B}}$ is intractable. 
 To overcome this problem we approximate the real-time propagator.
-Two widely used approximations to the real-time propagator are the Herman-Kluck propagator and the Van Vleck-GutzWiller propagator.
-We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-GutzWiller primarily because:
+Two widely used approximations to the real-time propagator are the Herman-Kluck propagator and the Van Vleck-Gutzwiller propagator.
+We chose to use the Herman-Kluck (HK) propagator instead of the Van Vleck-Gutzwiller primarily because:
 \begin{enumerate}
     \item The HK propagator is not restricted to small systems based on CT determined by initial and final positions~\cite{kay2006herman}.
     \item The HK propagator has the desired property that the coherent states are localized in coordinate $\&$ momentum space~\cite{kay2006herman}.
@@ -265,40 +260,36 @@ Substituting the HK propagator into our correlation function~\eqref{eq:cor_ins}:
 For $t=0$
 \begin{equation*}
     C(t=0) \approx \frac{1}{2\hbar\pi}\int\cdots\int\! \dif p\,\!\dif q\,\!\dif q_{A}\,\!\dif q_{B}\,
-    q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p(t), q(t)} \braket{p,q|q_{B}}\braket{q_{B}|0}
+    q_{A}q_{B}\braket{0|q_{A}}\braket{q_{A}|p, q} \braket{p,q|q_{B}}\braket{q_{B}|0}
 \end{equation*}
-\begin{enumerate}
-    \item Talk about "fictitious momenta" p and mass $m^{*}$
-    \item Talk about two choices $\gamma = \frac{m}{\hbar^{2}\tau}$ and $m^{*} = \frac{m}{P-1}$
-    \item Use Euler's equation and the momentum distribution (symmetric around zero) and the fact that sin is odd to make the imaginary part go away
-\end{enumerate}
-
-
-So we have an equation describing the estimator $Q$ and we can simulate a molecular system using PIGS. We have developed code in python that implements the proposed theory. The code uses the MMTK library to run PIGS simulations which are used as the initial conditions for the SC method. In the next section we display some early results of this newly developed code.
-
+We can evaluate an equation describing the estimator $\braket{Q}$ of a system's property by sampling from a PIGS distribution.
+There exists a relation between the equations describing our correlation function $C(t)$ and our expected value $\braket{Q}$.
+By choosing an appropriate $Q(a,b,\cdots, z)$ function, and in the limits $\beta \to \infty$ \& $\tau \to 0$ 
+the correlation function and the expected value are equivalent.
+We have developed code in Python that implements this proposed theory. 
+The code uses the MMTK library to run PIGS simulations from which we sample the initial conditions for the SC-IVR method. 
+In the next section we display some early results of this newly developed code.
 
 \section{Preliminary Results}
 
 \subsection*{Harmonic Oscillator}
-The primary test case being investigated is a single electron in a one-dimensional harmonic oscillator. 
-The Hamiltonian of our electron, where $m = \num{0.000548579909}$u): 
+The primary test case being investigated is a single particle (charge-less electron) in a one-dimensional harmonic oscillator. 
+The Hamiltonian of our electron: (where $m = \num{0.000548579909}$u)
 \begin{align}
-    \hat{H} = \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
+    \hat{H} = \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} \hat{q}^{2} 
 \end{align}
-We will simulate a one-dimensional harmonic oscillator using the mean values of a LePIGS simulation preformed in three dimensions. 
-Where $\psiT$ is the approximation to the exact ground state wavefunciton. 
-A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation. \\ \\
+We will simulate a one-dimensional harmonic oscillator using the mean values of a LePIGS simulation preformed in three dimensions. \\ \\
 Here we can see that our initial estimator has some issues:\\
 \includegraphics[width=1.0\linewidth]{betaplot_fixed.png}
 In this graph the black horizontal line represents the analytically determined value.
 Each point plotted on the graph represents a distinct simulation at $t=0$ with increasing $\beta$ and constant $\tau$.\\
-Our initial estimator converged, but not to the analytically determined value as we had hoped! 
+Our initial estimator converged, but not to the analytically determined value as we had hoped! \\
 One goal of future work is to find a "scaling factor" such that the estimator converges to the expected value.
 Some of our more recent results for the correlation function:\\
 \includegraphics[width=1.0\linewidth]{P=1025_1000classicalsteps.pdf}
 This graph compares and contrasts the real and imaginary parts of our correlation function over two periods. 
-Again the expected value was $\approx 442.13~\textrm{nm}^2$
-Here we used a different estimator:
+The expected value was $\approx 442.13~\textrm{nm}^2$ \\
+Here we the following estimator:
 \newcommand{\bead}[1]{^{(#1)}}
 \newcommand{\kB}{k_\textrm{B}}
 \begin{align*}
@@ -316,7 +307,7 @@ This is because SC-IVR has trouble describing coherent barrier tunneling.
 
 \section{Concluding Remarks}
 One major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy. To address this future challenge we are investigating the use of Filinov filtering.
-Initially we chose to use our fictious momentum as momentum, but his did not seem to work well.
+Initially we chose to use our fictious momentum as momentum, but htis did not seem to work well.
 A choice was made to set the fictious momentum to zero as an initial condition. 
 Since the momentum is symmetric about zero and is approximately zero this should be a reasonable choice.
 In the future we will investigate the momentum's choice and effect on the results further.
