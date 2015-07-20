@@ -1,8 +1,9 @@
 \pdfobjcompresslevel=0
-\documentclass[12pt,letterpaper, oneside, draft]{article}              % define the basic details of our document
-\usepackage{amsmath, graphicx, commath, pgfplots, color, nicefrac}     % get the packages we depend on
+\documentclass[12pt,letterpaper, oneside, draft]{article}               % define the basic details of our document
+\usepackage{amsmath, graphicx, commath, pgfplots, color, nicefrac}      % get the packages we depend on
 \usepackage{fullpage}                                                   % increases the dimensions of the page
 \usepackage{setspace}                                                   % this package double spaces our document for editing
+\usepackage[scientific-notation=true]{siunitx}
 \usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
 \usepackage{braket}
 \numberwithin{equation}{section} % numbers equations based on the section they are in
@@ -11,9 +12,21 @@
 
 \pgfplotsset{compat=1.11} % this lines forces the package 'pgfplots' to use a specific version so that this document reliably compiles identically across all system
 
+\addbibresource{ref.bib}
+
 \newcommand{\psiT}{\psi_{\textrm{T}}}
+\newcommand{\eBHf}{e^{\frac{-\beta\hat{H}}{2}}}
+\newcommand{\eBH}{e^{-\beta\hat{H}}}
+\newcommand{\eTH}{e^{-\tau\hat{H}}}
+\newcommand{\emiHt}{e^{\frac{-i\hat{H}t}{\hbar}}}
+\newcommand{\eiHt}{e^{\frac{i\hat{H}t}{\hbar}}}
+\newcommand{\expb}[1]{\ensuremath{\exp{\left[ #1 \right]}}}
+
+\renewcommand{\vec}[1]{\mathbf{#1}}
 \DeclareMathOperator{\Tr}{Tr}
 
+% TITLE PAGE %
+% TITLE PAGE %
 \newlength{\drop} % for my convenience
 \newcommand*{\titleGM}{\begingroup% Gentle Madness
 \drop = 0.1\textheight
@@ -38,3 +51,7 @@
 \vfill
 \null
 \endgroup}
+% TITLE PAGE %
+% TITLE PAGE %
+
+
