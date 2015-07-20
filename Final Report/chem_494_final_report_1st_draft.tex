@@ -1,6 +1,6 @@
 \pdfobjcompresslevel=0
 \documentclass[12pt,letterpaper, oneside, draft]{article}              % define the basic details of our document
-\usepackage{amsmath, commath, pgfplots, color, nicefrac}                % get the packages we depend on
+\usepackage{amsmath, graphicx, commath, pgfplots, color, nicefrac}     % get the packages we depend on
 
 \usepackage{fullpage}                                                   % increases the dimensions of the page
 \usepackage{setspace}                                                   % this package double spaces our document for editing
@@ -8,26 +8,54 @@
 \usepackage{braket}
 \numberwithin{equation}{section} % numbers equations based on the section they are in
 
+\usepackage[british]{datetime2}
 
 \pgfplotsset{compat=1.11} % this lines forces the package 'pgfplots' to use a specific version so that this document reliably compiles identically across all system
 
 \newcommand{\psiT}{\psi_{\textrm{T}}}
 \DeclareMathOperator{\Tr}{Tr}
 
-\begin{document}
+\newlength{\drop} % for my convenience
+\newcommand*{\titleGM}{\begingroup% Gentle Madness
+\drop = 0.1\textheight
+\vspace*{\baselineskip}
+\vfill
+	\hbox{%
+	\hspace*{0.2\textwidth}%
+	\rule{1pt}{\textheight}
+	\hspace*{0.05\textwidth}%
+	\parbox[b]{0.75\textwidth}{
+	\vbox{%
+		\vspace{\drop}
+		{\noindent\Huge\bfseries Title\\[0.5\baselineskip]
+					of the article}\\[2\baselineskip]
+		{\Large\itshape Subtitle}\\[4\baselineskip]
+		{\Large Neil Raymond}\par
+		\vspace{0.5\textheight}
+		{\noindent University of Waterloo}\\
+		{\noindent \DTMdisplaydate{2015}{07}{27}{0}}\\
+		[\baselineskip]
+		}% end of vbox
+		}% end of parbox
+	}% end of hbox
+\vfill
+\null
+\endgroup}
 
-% The title page
-\input{./title.tex} 
+\begin{document}
+\pagestyle{empty}
+\titleGM
+
 
 \doublespacing
-\newpage
-
 \section*{Acknowledgement}
 \newpage
 
 \section*{Summary}
 \newpage
 
+\pagenumbering{roman} % use roman page numbering
+\setcounter{page}{1}
 \tableofcontents
 \newpage
 
@@ -37,104 +65,34 @@
 \listoftables
 \newpage
 
-\section{First Section of Report}
+\pagenumbering{arabic} % change to arabic page numbering
+\setcounter{page}{1}
+
+\addcontentsline{toc}{section}{Introduction}
+\section*{Introduction}
+A brief outline of what the project is about and why it was started.
+
+\addcontentsline{toc}{section}{istorical}
+\section*{Historical}
+A brief outline of previous work in the areas before you started.
 \newpage
 
-%The format for the report should be a research proposal, where you outline the nature of your research project, the backgrounds to it from the literature, the techniques you will use for your research, and the results you hope to obtain. Maximum of 10 pages total, including a brief summary (200 words), references, and figures. Text should be double spaced, 12 point type. 
+\addcontentsline{toc}{section}{Experimental}
+\section*{Experimental}
+As much of the experimental details, especially of any new experiments, should be written down, so
+someone else could repeat the work or continue it.
+\newpage
 
-\subsection*{Abstract}
-A path integral ground state method will be used to calculate inital conditions of a semiclassical initial value representation approach, in Cartesian coordinates, 
-for molecular systems. It is hypothesised that this approach will yield accurate energy spectrums from which excited state energies can be obtained. 
+\addcontentsline{toc}{section}{Results \& Discussion}
+\section*{Results \& Discussion}
+Equations, tables, illustrations etc..
+As long or as shortas necessary to describeand evaluate what was accomplished. 
+\newpage
 
-
-\section{Introduction}
-Accurate and efficient measurements of molecular properties, such as energy states, is an area of active research in theoretical chemistry. The literature shows many different uses for these accurate measurements, and the benefits provided by obtaining them in a timely manner[cite]. There are many different methods for calculating these values, we propose a combination of a path integral ground state method and a semiclassical method. Classical methods, such as molecular dynamics simulations, are regularly used in comercial environments[cite]. Such methods are only adequate when the properties of interest do not exhibit significant quantum effects.Quantum mechanical calculations give exact results but are very slow or impossible for certain problem sets. These are key factors driving the interest in semiclassical methods, because they are based on classical trajectories but incorporate quantum effects. Semi-classical methods can be both fast and accurate for certain problem sets. It has been shown that ground state energies, for molecular systems, can be calculated using a semiclassical method with good accuracy and speed[cite]. In the research we propose, we will combine semiclassical techniques with path integral ground state techniques (PIGS) to obtain accurate excited state energies~\cite{issack2007semiclassical}~\cite{schmidt2014inclusion}.
-
-\section{Background}
-
-\subsection*{Path Integral Molecular Dynamics}
-A thorough explanation of PIMD $\&$ PIGS is given~\cite{iouchtchenko2014particle}. We are interested in 
-
-
-\begin{itemize}
-	\item Talk about Correlation functions, they offer a means of probing dynamical systems
-	\item we are interested in \_\_\_\_\_\_\_ type of correlation functions, from which we can extract the energy spectrum using a simple fourier transform
-	\item want to talk about how many degrees of freedom, as well as the propagator
-	\item the new expression for the spectrum (correlation function) is an integral which is traditionally evaluated by Monte Carlo sampling of initial conditions
-	\item Do we use the approximate form of the HK prefactor, or its formal definition? We chose HK not Van Vleck-GutzWiller so as to avoid boundary value problems, to avoid the "root seach". HK propagator is an approximation to this exact propagator including Gaussian wave packets.
-	\item talk about SC-IVR, requires the time evolution of a pool of sampled initial conditions, representative of the initial wave function. The phase space points corresponding to the time origins of the correlation functions provide an analogous representation of the initial wave function. SC-IVR does suffer from a dynamic sign problem integration.
-	\item SC-IVR has been shown to provide accurate ZPE, and it can directly be extended to the extraction of excited state energies by simply modifing the initial wave function and increasing the correlation time. We use PIGS to modify the initial wave function, without increase computational time. Meaning SC-IVR is capable of describing essentially all quantum effects that are based on the phase space information of the wave function.
-	\item can talk about position and momentum, classical action
-	\item mix PIGS and SC-IVR to calcualte excited state energies
-	\item Major obstacle is the oscillatory nature of the integral. When sampling, the cancellation between positive and negative terms of the integral results in poor statistics. Therefore more trajectories are required to achieve the same degree of accuracy.
-\end{itemize}
-
-\section{Methodology}
-
-Our approach to this research problem is to utilize corrleation functions because they offer a means of probing dynamic systems. The [name] amplitutde correlation function will be used to calculate excited state energies.[insert equation]\\
-For our particular problem we are going to use the [insert equation] form. We calculate the function for a constrained molecular system, described by the wave function [y], evolving according to the Hamiltonian of the system [Hc]. We made this choice because [reason for choice. This choice allows us to [thing] and [thing]. \\
-To get our energy spectrum we apply a Fourier transform to the [name] amplitude. [insert equation describing fourier transform]. SCENTENCE COMMENTING ON ACCURACY AND OR POTENTIAL ERROR. \\
-
-To construct our correlation function we start with [some equation] and apply [some transformation]. We can express the [name] amplitude as follows for our test case with a single degree of freedom using the SC-IVR formulation of the propagtor in coherent-state representation.[possible equation] We chose to use the Herman-Kluck (HK) prefactor [equation] because[factor 1, factor 2, factor 3].~\cite{kay2006herman} TALK ABOUT REMOVED POTENTIAL. \\
-
-Path integral ground state methods provide good results. [cite] We made [x] decision for [y] reason. In general they look like [equation]. We have to pay particular attention to [$\beta$, $\tau$, $\Delta$t, prefactor, centroid friction] parameters. We made [x] decisions for [y] reasons about the parameters.
-
-\subsection*{Semiclassical Initial Value Representation}
-
-
-
-
-\subsection*{Test Case}
-Before we preform the test case we confirm the accuracy of our implementation of PIGS by comparing simulated $\beta$ and $\tau$.
-The primary test case will be an electron in a one dimensional harmonic oscillator. 
-\begin{align}
-	\hat{H} &= \hat{V}(x) + \hat{K}(x) \\
-			&= \frac{p^2}{2m} + \frac{1}{2} m \omega^{2} x^{2} 
-\end{align}
-PIGS will be preformed in three dimensions and then the mean of all dimensional quantities will used as initial conditions for the SC-IVR method. \\
-The estimator used to find the energy will be: (our operator commutes with the Hamiltonian)
-\begin{equation}
-	\Braket{E} = \frac{\Braket{\psiT|e^{-\beta\hat{H}}\hat{H}|\psiT}}{\Braket{\psiT|e^{-\beta\hat{H}}|\psiT}} = \frac{1}{Z_{o}} \Braket{\psiT|e^{-\beta\hat{H}}|\psiT}
-\end{equation}
-Where $\psiT$ is the approximation to the exact ground state wavefunciton. A uniform trial function ($\psiT = 1$) was used due to simplicity of implementation.
-\\ \\
-The secondary test case will be an electron in a on dimensional double well. Some consideration is required in regards to tunneling effects. SC-IVR has troubles describing coherent barrier tunneling.
-
-\section{Fourth}
- Use the Path Integral Monte Carlo method used to simulate quantum systems at finite temperatures, to calculate ground state quantities. Ground state energies and other properties have long been calculated using Monte Carlo methods. A variety of ground state properties of quantum systems can be calculated without extrapolation by using a ground state path integral method. Path integral formulation of quantum mechanics allows systems to be represented using chains of classical particles. \\
-In the quantum Monte Carlo methods the Schrodinger equation is numerically solved by using statistival simulation. \\
-PIGS is also advantageous because it is free of errors associated with the extrapolation from mixed estimators when calculating ground state properties given by operators that do not commute with the Hamiltonian. \\
-Quantum Monte Carlo (QMC) methods have been the tool of choices for most of the theoretical studies of quantum clusters. In particular the path integral Monte Carlo (PIMC) method has been widely used to study the energetic, structural, and superfludic properties of clusters at finite temperature. Note that as long as the trial wave function has a finite overlap with the true ground state, and the projection time is sufficiently long, convergence will be achieved in PIGS.Need to talk about $\beta$ $\tau$ and the imaginary time propagator.
-The basic ideas of PIGS are common to the other projection techniques. The PIGS method allows one to obtain numerical estimates, in principle exact, of ground state expectation values for quantum many-body systems described by a Hamiltonian.
-
-
-For the ground state:
-\begin{enumerate}\setlength{\itemindent}{1em}
-	\item Propagate a trial function to find the wavefunction: $\ket{0} = e^{-\frac{\beta}{2} \hat{H}} \ket{\psiT}$
-	\item Find the density operator: $\hat{\rho} = \ket{0}\!\!\bra{0} = e^{-\frac{\beta}{2} \hat{H}} \ket{\psiT}\!\!\bra{\psiT} e^{-\frac{\beta}{2} \hat{H}}$
-	\item Let $\beta = \tau (P-1)$, so
-		\begin{align*}
-			Z
-			&= \Tr{\hat{\rho}}
-			= \Braket{\psiT | e^{-\beta \hat{H}} | \psiT}
-			= \Braket{\psiT | \left( e^{-\tau \hat{H}} \right)^{(P-1)} | \psiT}
-		\end{align*}
-	\item Apply Trotter factorization:~\cite{schmidt2014inclusion}
-		$
-			e^{-\tau \hat{H}}
-			\approx
-				e^{-\frac{\tau}{2} \textcolor{red}{\hat{V}}}
-				e^{-\tau \textcolor{blue}{\hat{K}}}
-				e^{-\frac{\tau}{2} \textcolor{red}{\hat{V}}}
-		$
-	\item Introduce $P$ resolutions of the identity $\int\! \dif q_i \ket{q_i}\!\!\bra{q_i}$ to act as the beads
-\end{enumerate}
-
-
-PIGS is used to simulate quantum systems without temperature, so as to calcualte ground state quantities.
-\section{Acknowledgements}
-Dmitri Iouchtchenko was a key editor, and contributed significant effort to the mathematical equations presented in this paper. Pierre-Nicholas Roy was a key editor and supervisor.
-
-\renewcommand*{\bibfont}{\scriptsize}
-\printbibliography
+\addcontentsline{toc}{section}{References}
+\section*{References}
+The last page should list all previous work to which reference was made.
+References are best made chronologically throughout the report and listed here in that order.
+Authors, publication, and date should be shown in each case.
+%\printbibliography
 \end{document}
