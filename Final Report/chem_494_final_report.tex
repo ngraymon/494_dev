@@ -1,5 +1,4 @@
 \input{macros_and_settings.tex}
-% cite as arXiv:1407.7370
 \titleGM
 \pagestyle{empty}
 \begin{document}
@@ -12,7 +11,8 @@ My thanks to Dmitri Iouchtchenko who edited, and contributed significant effort 
 My thanks also to Pierre-Nicholas Roy who supervised \& sponsored this research.
 \newpage
 
-\section*{Summary}
+\section*{Summary} 
+
 \newpage
 
 \pagestyle{plain}
@@ -30,26 +30,19 @@ My thanks also to Pierre-Nicholas Roy who supervised \& sponsored this research.
 \pagenumbering{arabic} % change to arabic page numbering
 \setcounter{page}{1}
 
-\addcontentsline{toc}{section}{Introduction}
+
 \input{introduction.tex}
 
-\addcontentsline{toc}{section}{istorical}
-\input{historical.tex}
-\newpage
+\input{background.tex}
+\clearpage
 
-\addcontentsline{toc}{section}{Experimental}
-\input{experimental.tex}
-\newpage
+\input{theoretical_methods.tex}
+\clearpage
 
-\addcontentsline{toc}{section}{Results \& Discussion}
 \input{results_and_discussion.tex}
-\newpage
+\clearpage
 
 \addcontentsline{toc}{section}{References}
 \renewcommand*{\bibfont}{\scriptsize}
 \printbibliography
-The last page should list all previous work to which reference was made.
-References are best made chronologically throughout the report and listed here in that order.
-Authors, publication, and date should be shown in each case.
-\\ \textbf{So they want (author, publication, date) where cited? and then the rest of the information here?}
 \end{document}
