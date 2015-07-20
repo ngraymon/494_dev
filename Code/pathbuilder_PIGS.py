@@ -78,7 +78,7 @@ universe.addObject(Environment.PathIntegrals(temperature))
 
 # create the forcefield and impose it on the universe
 ff = PIGSHarmonicOscillatorForceField(atom=universe.atomList()[0], center=Vector(0., 0., 0.), force_constant=(universe.atomList()[0].mass() * w_2), UsingPIGS = True)
-universe.setForceField(ff)
+universe.setForceField(ff) # universe.setForceField(ff + trial_ff)
 
 # initialize the velocities, make the integrator the trajectory
 universe.initializeVelocitiesToTemperature(temperature)

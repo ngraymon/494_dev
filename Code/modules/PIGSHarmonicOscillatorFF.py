@@ -120,6 +120,24 @@ class PIGSHarmonicOscillatorForceField(ForceField):
             return [HarmonicOscillatorTerm(universe, self.atom_index, self.center, self.force_constant)]
 
 
+class PIGSHarmonicOscillatorForceField(ForceField):
+    def evaluatorTerms(self, universe, subset1, subset2, global_data):
+
+        if subset1 is not None or subset2 is not None:
+            raise ValueError("sorry, no subsets here")
+        if (self.doingPath):
+            f, offsets          = self.beadOffsetsAndFactor([self.atom_index], global_data)
+            prefactor_array     = np.ones_like(offsets)
+            M = (prefactor_array.shape[1] / 2) 
+
+            prefactor_array[0]    = 0.5
+            #prefactor_array[M-1]  = 0.5
+            #prefactor_array[M]    = 0.0
+            #prefactor_array[M+1]  = 0.5
+            prefactor_array[-1]   = 0.5
+            return [HarmonicOscillatorTerm(universe, self.atom_index + offset[0], self.center, prefactor * f * self.force_constant) for offset, prefactor in zip(offsets,prefactor_array)]
+
+
 
 
 
