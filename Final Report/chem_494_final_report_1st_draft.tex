@@ -1,50 +1,9 @@
-\pdfobjcompresslevel=0
-\documentclass[12pt,letterpaper, oneside, draft]{article}              % define the basic details of our document
-\usepackage{amsmath, graphicx, commath, pgfplots, color, nicefrac}     % get the packages we depend on
+\input{macros_and_settings.tex}
 
-\usepackage{fullpage}                                                   % increases the dimensions of the page
-\usepackage{setspace}                                                   % this package double spaces our document for editing
-\usepackage[backend=biber,style=phys,biblabel=brackets]{biblatex}
-\usepackage{braket}
-\numberwithin{equation}{section} % numbers equations based on the section they are in
-
-\usepackage[british]{datetime2}
-
-\pgfplotsset{compat=1.11} % this lines forces the package 'pgfplots' to use a specific version so that this document reliably compiles identically across all system
-
-\newcommand{\psiT}{\psi_{\textrm{T}}}
-\DeclareMathOperator{\Tr}{Tr}
-
-\newlength{\drop} % for my convenience
-\newcommand*{\titleGM}{\begingroup% Gentle Madness
-\drop = 0.1\textheight
-\vspace*{\baselineskip}
-\vfill
-	\hbox{%
-	\hspace*{0.2\textwidth}%
-	\rule{1pt}{\textheight}
-	\hspace*{0.05\textwidth}%
-	\parbox[b]{0.75\textwidth}{
-	\vbox{%
-		\vspace{\drop}
-		{\noindent\Huge\bfseries Title\\[0.5\baselineskip]
-					of the article}\\[2\baselineskip]
-		{\Large\itshape Subtitle}\\[4\baselineskip]
-		{\Large Neil Raymond}\par
-		\vspace{0.5\textheight}
-		{\noindent University of Waterloo}\\
-		{\noindent \DTMdisplaydate{2015}{07}{27}{0}}\\
-		[\baselineskip]
-		}% end of vbox
-		}% end of parbox
-	}% end of hbox
-\vfill
-\null
-\endgroup}
-
-\begin{document}
-\pagestyle{empty}
 \titleGM
+\pagestyle{empty}
+\begin{document}
+\clearpage
 
 
 \doublespacing
@@ -54,6 +13,7 @@
 \section*{Summary}
 \newpage
 
+\pagestyle{plain}
 \pagenumbering{roman} % use roman page numbering
 \setcounter{page}{1}
 \tableofcontents
@@ -69,24 +29,18 @@
 \setcounter{page}{1}
 
 \addcontentsline{toc}{section}{Introduction}
-\section*{Introduction}
-A brief outline of what the project is about and why it was started.
+\input{introduction.tex}
 
 \addcontentsline{toc}{section}{istorical}
-\section*{Historical}
-A brief outline of previous work in the areas before you started.
+\input{historical.tex}
 \newpage
 
 \addcontentsline{toc}{section}{Experimental}
-\section*{Experimental}
-As much of the experimental details, especially of any new experiments, should be written down, so
-someone else could repeat the work or continue it.
+\input{experimental.tex}
 \newpage
 
 \addcontentsline{toc}{section}{Results \& Discussion}
-\section*{Results \& Discussion}
-Equations, tables, illustrations etc..
-As long or as shortas necessary to describeand evaluate what was accomplished. 
+\input{results_and_discussion.tex}
 \newpage
 
 \addcontentsline{toc}{section}{References}
