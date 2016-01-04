@@ -1,0 +1,57 @@
+Curse of Dimensionality
+	https://en.wikipedia.org/wiki/Curse_of_dimensionality
+
+Bibtex:
+@book{bellman2003dynamic,
+  title={Dynamic Programming},
+  author={Bellman, R.E.},
+  isbn={9780486428093},
+  lccn={2002072879},
+  series={Dover Books on Computer Science Series},
+  url={https://books.google.ca/books?id=fyVtp3EMxasC},
+  year={2003},
+  publisher={Dover Publications}
+}
+
+
+Citation for PyCUDA paper:
+Klöckner, Andreas, et al. "PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation." Parallel Computing 38.3 (2012): 157-174.
+
+
+
+Pycuda:
+@article{klockner2012pycuda,
+  title={PyCUDA and PyOpenCL: A scripting-based approach to GPU run-time code generation},
+  author={Kl{\"o}ckner, Andreas and Pinto, Nicolas and Lee, Yunsup and Catanzaro, Bryan and Ivanov, Paul and Fasih, Ahmed},
+  journal={Parallel Computing},
+  volume={38},
+  number={3},
+  pages={157--174},
+  year={2012},
+  publisher={Elsevier}
+}
+
+
+
+
+
+All the references from my interm report
+	\cite{goodfellow1990molecular}
+	\cite{pasquarello1998interface}
+	\cite{sarsa2000path}
+	\cite{issack2007semiclassical}
+	\cite{schmidt2014inclusion}
+	\cite{constable2013langevin}
+	\cite{hinsen2000molecular}
+	\cite{kay2006herman}
+
+References from poster
+	\cite{ceperley1995path}
+
+
+Path integral formulation of quantum mechanics allows systems to be repersented using chains of classical particles (Beads)
+Include picture,
+Talk about what dimitr did and how it makes for a better plot
+
+SC-IVR as a method for formulating correlation functions to find excited state energies.
+We can obtain excited state energies by applying a Fourier transform to a correlation function.
